@@ -20,10 +20,12 @@ void SnakeMovement(sf::Keyboard keyboard);
 class Snake
 {
 private:
-    std::deque<sf::Vector2f> snakeBody;
+    std::deque<sf::RectangleShape> snakeBody;
 public:
-    void ExtendSnake(sf::Vector2f newLocation);
-    void MoveSnake();
+    // Instead of popping like in MoveSnake()
+    // Simply add to deque
+    void ExtendSnake();
+    void MoveSnake(); // Move only head body piece
 };
 
 

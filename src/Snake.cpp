@@ -4,8 +4,11 @@
 #include "Snake.h"
 using namespace std;
 
+// Test for collision between two objects
 bool SnakeCollision(sf::RectangleShape object1, sf::RectangleShape object2)
 {
+    // Hack for getting a temporary collision
+    // Collision only tested for origin corrordinate
     sf::Vector2f object1Position = object1.getPosition();
     sf::Vector2f object2Position = object2.getPosition();
     if (object1Position.x != object2Position.x)
@@ -17,6 +20,7 @@ bool SnakeCollision(sf::RectangleShape object1, sf::RectangleShape object2)
 
 }
 
+// Move snake head piece
 void SnakeMovement(sf::Keyboard keyboard)
 {
     /*
@@ -36,7 +40,7 @@ void SnakeMovement(sf::Keyboard keyboard)
     return;
 }
 
-void Snake::ExtendSnake(sf::Vector2f newLocation)
+void Snake::ExtendSnake()
 {
     /*
     snakeBody.push_back(newLocation);
