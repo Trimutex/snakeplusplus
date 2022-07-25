@@ -21,6 +21,7 @@ class Snake
 {
 private:
     std::deque<sf::RectangleShape> snakeBody;
+    Snake();
 public:
     // Instead of popping like in MoveSnake()
     // Simply add to deque

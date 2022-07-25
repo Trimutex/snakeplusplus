@@ -26,33 +26,33 @@ void SnakeMovement(sf::Keyboard keyboard)
     /*
     if (keyboard.pressed(Left))
         snakeHead.moveleft();
-
     if (keyboard.pressed(Right))
         snakeHead.moveRight();
     if (keyboard.pressed(Down))
         snakeHead.moveDown();
     if (keyboard.pressed(Up))
         snakeHead.moveUp();
-    if (!snakeHead.isTouchingFood())
-        snakeQueue.pop();
-
     */
     return;
 }
 
 void Snake::ExtendSnake()
 {
-    /*
-    snakeBody.push_back(newLocation);
-    */
+    // Create a new deque RectangleShape without popping old
     return;
 }
 
 void Snake::MoveSnake()
 {
-    /*
-    head.snakeBody()
-    */
+    // Create a new deque RectangleShape and pop old
+    // Todo: Depreciate ExtendSnake and just add a collision test
+    return;
+}
+
+Snake::Snake()
+{
+    // Possibly unnecessary
+    // The big 3 could be used to create a fresh game state
     return;
 }
 // SnakeNode::SnakeNode();
