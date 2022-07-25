@@ -51,5 +51,5 @@ void Snake::MoveSnake()
     */
     return;
 }
-SnakeNode::SnakeNode();
-SnakeNode::SnakeNode(sf::Vector2f addBodyPiece);
+// SnakeNode::SnakeNode();
+// SnakeNode::SnakeNode(sf::Vector2f addBodyPiece);

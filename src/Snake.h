@@ -6,16 +6,16 @@
 bool SnakeCollision(sf::RectangleShape object1, sf::RectangleShape object2);
 void SnakeMovement(sf::Keyboard keyboard);
 
-class SnakeNode
-{
-private:
-    // sf::RectangleShape snakeBody(sf::Vector2f(25,25));
-    sf::Vector2f snakeBodyLocation;
-    SnakeNode* next;
-public:
-    SnakeNode();
-    SnakeNode(sf::Vector2f addBodyPiece);
-};
+// class SnakeNode
+// {
+// private:
+//     // sf::RectangleShape snakeBody(sf::Vector2f(25,25));
+//     sf::Vector2f snakeBodyLocation;
+//     SnakeNode* next;
+// public:
+//     SnakeNode();
+//     SnakeNode(sf::Vector2f addBodyPiece);
+// };
 
 class Snake
 {
