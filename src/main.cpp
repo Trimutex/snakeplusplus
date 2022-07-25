@@ -1,9 +1,22 @@
 #include <iostream>
 #include <SFML\Graphics.hpp>
 #include <SFML\System.hpp>
+#include "Snake.h"
 using namespace std;
 
-bool SnakeCollision(sf::RectangleShape object1, sf::RectangleShape object2);
+
+/*
+
+    TODO:    Work on snake body
+    Add ability for body to extend when eating food
+
+    Turn snake body into queue
+    Each piece of queue has coordinates
+    If head touches food, just add to queue, don't pop
+
+*/
+
+
 
 int main()
 {
@@ -30,6 +43,9 @@ int main()
         }
         sf::Vector2f snakeHeadPosition = snakeHead.getPosition();
         sf::Vector2f snakeFoodPosition = snakeFood.getPosition();
+        // TODO:    Split Movement into separate function
+        //          Add boundaries
+        //          Add movement until boundaries
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
             snakeHeadPosition.x -= 25;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -51,17 +67,4 @@ int main()
         window.display();
         sf::sleep(delay);
     }
-}
-
-bool SnakeCollision(sf::RectangleShape object1, sf::RectangleShape object2)
-{
-    sf::Vector2f object1Position = object1.getPosition();
-    sf::Vector2f object2Position = object2.getPosition();
-    if (object1Position.x != object2Position.x)
-        return 0;
-    if (object1Position.y != object2Position.y)
-        return 0;
-
-    return 1;
-
 }
