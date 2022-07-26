@@ -2,7 +2,6 @@
 #include <SFML\Graphics.hpp>
 #include <SFML\System.hpp>
 #include "Snake.h"
-using namespace std;
 
 
 /*
@@ -26,6 +25,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(videoSizeHorizontal, videoSizeVertical), "SnakePlusPlus");
     sf::Time delay = sf::milliseconds(100);
 
+    Snake Player(sf::Vector2f(25,25));
     sf::RectangleShape snakeHead(sf::Vector2f(25,25));
     sf::RectangleShape snakeFood(sf::Vector2f(25,25));
     snakeHead.setFillColor(sf::Color::Green);
@@ -41,7 +41,7 @@ int main()
             if ((event.type == sf::Event::Closed) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
                 window.close();
         }
-        sf::Vector2f snakeHeadPosition = snakeHead.getPosition();
+        sf::Vector2f snakeHeadPosition = Player.GetHeadPosition();
         sf::Vector2f snakeFoodPosition = snakeFood.getPosition();
         // TODO:    Split Movement into separate function
         //          Add boundaries

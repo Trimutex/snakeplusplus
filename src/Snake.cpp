@@ -2,7 +2,6 @@
 #include <SFML\Graphics.hpp>
 #include <SFML\System.hpp>
 #include "Snake.h"
-using namespace std;
 
 // Test for collision between two objects
 bool SnakeCollision(sf::RectangleShape object1, sf::RectangleShape object2)
@@ -49,10 +48,24 @@ void Snake::MoveSnake()
     return;
 }
 
+// Get x and y position of snake head
+sf::Vector2f Snake::GetHeadPosition()
+{
+    sf::Vector2f position;
+    position = snakeBody.front().getPosition();
+    return position;
+}
+
 Snake::Snake()
 {
     // Possibly unnecessary
     // The big 3 could be used to create a fresh game state
+    return;
+}
+Snake::Snake(sf::Vector2f head)
+{
+    sf::RectangleShape newBodyPart(head);
+    snakeBody.push_back(newBodyPart);
     return;
 }
 // SnakeNode::SnakeNode();

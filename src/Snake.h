@@ -21,10 +21,12 @@ class Snake
 {
 private:
     std::deque<sf::RectangleShape> snakeBody;
-    Snake();
 public:
+    Snake();
+    Snake(sf::Vector2f head);
     // Instead of popping like in MoveSnake()
     // Simply add to deque
+    sf::Vector2f GetHeadPosition();
     void ExtendSnake();
     void MoveSnake(); // Move only head body piece
 };
