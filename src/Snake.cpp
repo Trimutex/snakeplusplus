@@ -20,10 +20,8 @@ bool SnakeCollision(sf::RectangleShape object1, sf::RectangleShape object2)
 }
 
 // Move snake head piece
-int SnakeMovement()
+void Snake::CheckDirection()
 {
-    std::cout << "Test text \n";
-    int snakeDirection = 0;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         snakeDirection = 1;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -32,7 +30,22 @@ int SnakeMovement()
         snakeDirection = 3;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         snakeDirection = 4;
-    return snakeDirection;
+    return;
+}
+
+// Check snake head for running into boundaries
+bool Snake::CheckBoundaries()
+{
+    if (snakeBody.front().getPosition().x == 0 && snakeDirection == 1)
+        return 1;
+    if (snakeBody.front().getPosition().y == 0 && snakeDirection == 2)
+        return 1;
+    // TODO: Change boundaries to not be hard-coded
+    if (snakeBody.front().getPosition().y > 675 && snakeDirection == 3)
+        return 1;
+    if (snakeBody.front().getPosition().x > 975 && snakeDirection == 4)
+        return 1;
+    return 0;
 }
 
 sf::Vector2f CalculateNewPosition(int direction, sf::Vector2f position)
@@ -56,13 +69,15 @@ void Snake::ExtendSnake()
     return;
 }
 
-void Snake::MoveSnake(int snakeDirection)
+void Snake::MoveSnake()
 {
     // Create a new deque RectangleShape and pop old
     // Todo: Depreciate ExtendSnake and just add a collision test
+    CheckDirection();
     sf::Vector2f newHeadPosition;
     newHeadPosition = GetSnakeHeadPosition();
-    newHeadPosition = CalculateNewPosition(snakeDirection, newHeadPosition);
+    if (!CheckBoundaries())
+        newHeadPosition = CalculateNewPosition(snakeDirection, newHeadPosition);
     sf::RectangleShape newBodyPart(sf::Vector2f(25,25));
     newBodyPart.setPosition(newHeadPosition);
     snakeBody.push_back(newBodyPart);
