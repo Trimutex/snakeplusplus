@@ -48,6 +48,7 @@ bool Snake::CheckBoundaries()
     return 0;
 }
 
+// Get a new coordinate position based on snake direction
 sf::Vector2f CalculateNewPosition(int direction, sf::Vector2f position)
 {
     if (direction == 0)
@@ -69,7 +70,7 @@ void Snake::ExtendSnake()
     return;
 }
 
-void Snake::MoveSnake()
+void Snake::MoveSnake(sf::RectangleShape& snakeFood)
 {
     // Create a new deque RectangleShape and pop old
     // Todo: Depreciate ExtendSnake and just add a collision test
@@ -80,8 +81,16 @@ void Snake::MoveSnake()
         newHeadPosition = CalculateNewPosition(snakeDirection, newHeadPosition);
     sf::RectangleShape newBodyPart(sf::Vector2f(25,25));
     newBodyPart.setPosition(newHeadPosition);
-    snakeBody.push_back(newBodyPart);
-    snakeBody.pop_front();
+    snakeBody.push_front(newBodyPart);
+    if (!SnakeCollision(GetSnakeHead(), snakeFood))
+        snakeBody.pop_back();
+    else if (SnakeCollision(GetSnakeHead(), snakeFood))
+    {
+        sf::Vector2f snakeFoodPosition = snakeFood.getPosition();
+        snakeFoodPosition.x += 25;
+        snakeFoodPosition.y += 25;
+        snakeFood.setPosition(snakeFoodPosition.x, snakeFoodPosition.y);
+    }
     return;
 }
 
