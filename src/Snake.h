@@ -22,6 +22,7 @@ class Snake
 {
 private:
     std::deque<sf::RectangleShape> snakeBody;
+    int snakeDirection = 0;
 public:
     Snake();
     Snake(sf::Vector2f head);
@@ -31,7 +32,9 @@ public:
     sf::RectangleShape GetSnakeHead();
     void DisplaySnake(sf::RenderWindow& window);
     void ExtendSnake();
-    void MoveSnake(int snakeDirection); // Move only head body piece
+    void MoveSnake(); // Move only head body piece
+    void CheckDirection();
+    bool CheckBoundaries();
 };
 
 
