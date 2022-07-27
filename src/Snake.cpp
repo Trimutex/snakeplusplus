@@ -63,9 +63,10 @@ void Snake::MoveSnake(int snakeDirection)
     sf::Vector2f newHeadPosition;
     newHeadPosition = GetSnakeHeadPosition();
     newHeadPosition = CalculateNewPosition(snakeDirection, newHeadPosition);
-    sf::RectangleShape newBodyPart(newHeadPosition);
+    sf::RectangleShape newBodyPart(sf::Vector2f(25,25));
+    newBodyPart.setPosition(newHeadPosition);
     snakeBody.push_back(newBodyPart);
-    // snakeBody.pop_front();
+    snakeBody.pop_front();
     return;
 }
 
@@ -102,6 +103,7 @@ Snake::Snake()
 Snake::Snake(sf::Vector2f head)
 {
     sf::RectangleShape newBodyPart(head);
+    newBodyPart.setFillColor(sf::Color::Green);
     snakeBody.push_back(newBodyPart);
     return;
 }

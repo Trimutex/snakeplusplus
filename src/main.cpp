@@ -27,7 +27,7 @@ int main()
     gameGridVertical = (videoSizeVertical // 25) * 25;
     */
     sf::RenderWindow window(sf::VideoMode(videoSizeHorizontal, videoSizeVertical), "SnakePlusPlus");
-    sf::Time delay = sf::milliseconds(100);
+    sf::Time delay = sf::milliseconds(5);
 
     int snakeDirection = 0;
     Snake Player(sf::Vector2f(25,25));
@@ -46,7 +46,7 @@ int main()
             if ((event.type == sf::Event::Closed) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
                 window.close();
         }
-        sf::Vector2f snakeHeadPosition = Player.GetSnakeHeadPosition();
+        // sf::Vector2f snakeHeadPosition = Player.GetSnakeHeadPosition();
         sf::Vector2f snakeFoodPosition = snakeFood.getPosition();
         // TODO:    Split Movement into separate function
         //          Add boundaries
@@ -67,9 +67,8 @@ int main()
         //     snakeFood.setPosition(snakeFoodPosition.x, snakeFoodPosition.y);
         window.clear();
         window.draw(snakeFood);
-
         Player.DisplaySnake(window);
         window.display();
-        // sf::sleep(delay);
+        sf::sleep(delay);
     }
 }
