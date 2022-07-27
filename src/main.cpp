@@ -2,7 +2,6 @@
 #include <SFML\Graphics.hpp>
 #include <SFML\System.hpp>
 #include "Snake.h"
-using namespace std;
 
 
 /*
@@ -23,12 +22,18 @@ int main()
     int videoSizeHorizontal, videoSizeVertical;
     videoSizeHorizontal = 1024;
     videoSizeVertical = 725;
+    /*
+    gameGridHorizontal = (videoSizeHorizontal // 25) * 25;
+    gameGridVertical = (videoSizeVertical // 25) * 25;
+    */
     sf::RenderWindow window(sf::VideoMode(videoSizeHorizontal, videoSizeVertical), "SnakePlusPlus");
-    sf::Time delay = sf::milliseconds(100);
+    sf::Time delay = sf::milliseconds(5);
 
+    int snakeDirection = 0;
+    Snake Player(sf::Vector2f(25,25));
     sf::RectangleShape snakeHead(sf::Vector2f(25,25));
     sf::RectangleShape snakeFood(sf::Vector2f(25,25));
-    snakeHead.setFillColor(sf::Color::Green);
+    // snakeHead.setFillColor(sf::Color::Green);
     snakeFood.setFillColor(sf::Color::Red);
 
     snakeFood.setPosition(25,25);
@@ -41,29 +46,28 @@ int main()
             if ((event.type == sf::Event::Closed) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
                 window.close();
         }
-        sf::Vector2f snakeHeadPosition = snakeHead.getPosition();
+        // sf::Vector2f snakeHeadPosition = Player.GetSnakeHeadPosition();
         sf::Vector2f snakeFoodPosition = snakeFood.getPosition();
         // TODO:    Split Movement into separate function
         //          Add boundaries
         //          Add movement until boundaries
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            snakeHeadPosition.x -= 25;
+            snakeDirection = 1;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            snakeHeadPosition.y -= 25;
+            snakeDirection = 2;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            snakeHeadPosition.y += 25;
+            snakeDirection = 3;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            snakeHeadPosition.x += 25;
-        snakeHead.setPosition(snakeHeadPosition.x, snakeHeadPosition.y);
-        if (SnakeCollision(snakeHead, snakeFood))
-        {
-            snakeFoodPosition.x += 25;
-            snakeFoodPosition.y += 25;
-            snakeFood.setPosition(snakeFoodPosition.x, snakeFoodPosition.y);
-        }
+            snakeDirection = 4;
+        Player.MoveSnake(snakeDirection);
+        // if (SnakeCollision(snakeHead, snakeFood))
+        // {
+        //     snakeFoodPosition.x += 25;
+        //     snakeFoodPosition.y += 25;
+        //     snakeFood.setPosition(snakeFoodPosition.x, snakeFoodPosition.y);
         window.clear();
         window.draw(snakeFood);
-        window.draw(snakeHead);
+        Player.DisplaySnake(window);
         window.display();
         sf::sleep(delay);
     }

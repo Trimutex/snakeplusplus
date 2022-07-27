@@ -4,7 +4,8 @@
 #include <queue>
 
 bool SnakeCollision(sf::RectangleShape object1, sf::RectangleShape object2);
-void SnakeMovement(sf::Keyboard keyboard);
+int SnakeMovement();
+sf::Vector2f CalculateNewPosition(int direction, sf::Vector2f position);
 
 // class SnakeNode
 // {
@@ -21,12 +22,16 @@ class Snake
 {
 private:
     std::deque<sf::RectangleShape> snakeBody;
-    Snake();
 public:
+    Snake();
+    Snake(sf::Vector2f head);
     // Instead of popping like in MoveSnake()
     // Simply add to deque
+    sf::Vector2f GetSnakeHeadPosition();
+    sf::RectangleShape GetSnakeHead();
+    void DisplaySnake(sf::RenderWindow& window);
     void ExtendSnake();
-    void MoveSnake(); // Move only head body piece
+    void MoveSnake(int snakeDirection); // Move only head body piece
 };
 
 
