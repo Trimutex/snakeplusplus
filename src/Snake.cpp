@@ -64,12 +64,7 @@ sf::Vector2f CalculateNewPosition(int direction, sf::Vector2f position)
     return position;
 }
 
-void Snake::ExtendSnake()
-{
-    // Create a new deque RectangleShape without popping old
-    return;
-}
-
+// Move snake based on direction and test for eating food
 void Snake::MoveSnake(sf::RectangleShape& snakeFood)
 {
     // Create a new deque RectangleShape and pop old
@@ -94,7 +89,7 @@ void Snake::MoveSnake(sf::RectangleShape& snakeFood)
     return;
 }
 
-// Get x and y position of snake head
+// Return the Vector2f head of snake
 sf::Vector2f Snake::GetSnakeHeadPosition()
 {
     sf::Vector2f position;
@@ -102,6 +97,7 @@ sf::Vector2f Snake::GetSnakeHeadPosition()
     return position;
 }
 
+// Return the RectangleShape head of snake
 sf::RectangleShape Snake::GetSnakeHead()
 {
     sf::RectangleShape head;
@@ -109,6 +105,7 @@ sf::RectangleShape Snake::GetSnakeHead()
     return head;
 }
 
+// Iterate through snake deque and draw to window
 void Snake::DisplaySnake(sf::RenderWindow& window)
 {
     for (auto it = snakeBody.cbegin(); it != snakeBody.cend(); ++it)
@@ -118,12 +115,16 @@ void Snake::DisplaySnake(sf::RenderWindow& window)
     return;
 }
 
+// General constructor for snake class
 Snake::Snake()
 {
-    // Possibly unnecessary
-    // The big 3 could be used to create a fresh game state
+    sf::RectangleShape newBodyPart(sf::Vector2f(25,25));
+    newBodyPart.setFillColor(sf::Color::Green);
+    snakeBody.push_back(newBodyPart);
     return;
 }
+
+// Constructor for snake with position
 Snake::Snake(sf::Vector2f head)
 {
     sf::RectangleShape newBodyPart(head);
