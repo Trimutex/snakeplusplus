@@ -37,15 +37,15 @@ void Snake::CheckDirection()
 bool Snake::CheckBoundaries()
 {
     if (snakeBody.front().getPosition().x == 0 && snakeDirection == 1)
-        return 1;
+        return true;
     if (snakeBody.front().getPosition().y == 0 && snakeDirection == 2)
-        return 1;
+        return true;
     // TODO: Change boundaries to not be hard-coded
     if (snakeBody.front().getPosition().y > 675 && snakeDirection == 3)
-        return 1;
+        return true;
     if (snakeBody.front().getPosition().x > 975 && snakeDirection == 4)
-        return 1;
-    return 0;
+        return true;
+    return false;
 }
 
 // Get a new coordinate position based on snake direction
@@ -76,6 +76,12 @@ void Snake::MoveSnake(sf::RectangleShape& snakeFood)
         newHeadPosition = CalculateNewPosition(snakeDirection, newHeadPosition);
     sf::RectangleShape newBodyPart(sf::Vector2f(25,25));
     newBodyPart.setPosition(newHeadPosition);
+    if (IsSelfCollision(newBodyPart))
+    {
+        // Do nothing if self collision
+        return;
+    }
+    newBodyPart.setFillColor(sf::Color::Green);
     snakeBody.push_front(newBodyPart);
     if (!SnakeCollision(GetSnakeHead(), snakeFood))
         snakeBody.pop_back();
@@ -113,6 +119,19 @@ void Snake::DisplaySnake(sf::RenderWindow& window)
         window.draw(*it);
     }
     return;
+}
+
+// Test for snake self collision
+bool Snake::IsSelfCollision(sf::RectangleShape testRectangle)
+{
+    for (auto it = snakeBody.cbegin(); it != snakeBody.cend(); ++it)
+    {
+        if (SnakeCollision(testRectangle, *it))
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 // General constructor for snake class

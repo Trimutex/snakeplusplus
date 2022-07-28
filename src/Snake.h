@@ -21,6 +21,7 @@ public:
     void MoveSnake(sf::RectangleShape& snakeFood);
     void CheckDirection();
     bool CheckBoundaries();
+    bool IsSelfCollision(sf::RectangleShape testRectangle);
 };
 
 
