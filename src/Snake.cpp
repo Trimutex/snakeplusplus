@@ -67,8 +67,6 @@ sf::Vector2f CalculateNewPosition(int direction, sf::Vector2f position)
 // Move snake based on direction and test for eating food
 void Snake::MoveSnake(sf::RectangleShape& snakeFood)
 {
-    // Create a new deque RectangleShape and pop old
-    // Todo: Depreciate ExtendSnake and just add a collision test
     CheckDirection();
     sf::Vector2f newHeadPosition;
     newHeadPosition = GetSnakeHeadPosition();
@@ -151,5 +149,3 @@ Snake::Snake(sf::Vector2f head)
     snakeBody.push_back(newBodyPart);
     return;
 }
-// SnakeNode::SnakeNode();
-// SnakeNode::SnakeNode(sf::Vector2f addBodyPiece);

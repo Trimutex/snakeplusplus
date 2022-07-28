@@ -3,18 +3,6 @@
 #include <SFML\System.hpp>
 #include "Snake.h"
 
-
-/*
-
-    TODO:
-    Add ability for body to extend when eating food
-    Each piece of queue has coordinates
-    If head touches food, just add to queue, don't pop
-
-*/
-
-
-
 int main()
 {
     int videoSizeHorizontal, videoSizeVertical;
