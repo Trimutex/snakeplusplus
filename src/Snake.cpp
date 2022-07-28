@@ -37,15 +37,15 @@ void Snake::CheckDirection()
 bool Snake::CheckBoundaries()
 {
     if (snakeBody.front().getPosition().x == 0 && snakeDirection == 1)
-        return 1;
+        return true;
     if (snakeBody.front().getPosition().y == 0 && snakeDirection == 2)
-        return 1;
+        return true;
     // TODO: Change boundaries to not be hard-coded
     if (snakeBody.front().getPosition().y > 675 && snakeDirection == 3)
-        return 1;
+        return true;
     if (snakeBody.front().getPosition().x > 975 && snakeDirection == 4)
-        return 1;
-    return 0;
+        return true;
+    return false;
 }
 
 // Get a new coordinate position based on snake direction
@@ -64,16 +64,9 @@ sf::Vector2f CalculateNewPosition(int direction, sf::Vector2f position)
     return position;
 }
 
-void Snake::ExtendSnake()
-{
-    // Create a new deque RectangleShape without popping old
-    return;
-}
-
+// Move snake based on direction and test for eating food
 void Snake::MoveSnake(sf::RectangleShape& snakeFood)
 {
-    // Create a new deque RectangleShape and pop old
-    // Todo: Depreciate ExtendSnake and just add a collision test
     CheckDirection();
     sf::Vector2f newHeadPosition;
     newHeadPosition = GetSnakeHeadPosition();
@@ -81,6 +74,12 @@ void Snake::MoveSnake(sf::RectangleShape& snakeFood)
         newHeadPosition = CalculateNewPosition(snakeDirection, newHeadPosition);
     sf::RectangleShape newBodyPart(sf::Vector2f(25,25));
     newBodyPart.setPosition(newHeadPosition);
+    if (IsSelfCollision(newBodyPart))
+    {
+        // Do nothing if self collision
+        return;
+    }
+    newBodyPart.setFillColor(sf::Color::Green);
     snakeBody.push_front(newBodyPart);
     if (!SnakeCollision(GetSnakeHead(), snakeFood))
         snakeBody.pop_back();
@@ -94,7 +93,7 @@ void Snake::MoveSnake(sf::RectangleShape& snakeFood)
     return;
 }
 
-// Get x and y position of snake head
+// Return the Vector2f head of snake
 sf::Vector2f Snake::GetSnakeHeadPosition()
 {
     sf::Vector2f position;
@@ -102,6 +101,7 @@ sf::Vector2f Snake::GetSnakeHeadPosition()
     return position;
 }
 
+// Return the RectangleShape head of snake
 sf::RectangleShape Snake::GetSnakeHead()
 {
     sf::RectangleShape head;
@@ -109,6 +109,7 @@ sf::RectangleShape Snake::GetSnakeHead()
     return head;
 }
 
+// Iterate through snake deque and draw to window
 void Snake::DisplaySnake(sf::RenderWindow& window)
 {
     for (auto it = snakeBody.cbegin(); it != snakeBody.cend(); ++it)
@@ -118,12 +119,29 @@ void Snake::DisplaySnake(sf::RenderWindow& window)
     return;
 }
 
+// Test for snake self collision
+bool Snake::IsSelfCollision(sf::RectangleShape testRectangle)
+{
+    for (auto it = snakeBody.cbegin(); it != snakeBody.cend(); ++it)
+    {
+        if (SnakeCollision(testRectangle, *it))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+// General constructor for snake class
 Snake::Snake()
 {
-    // Possibly unnecessary
-    // The big 3 could be used to create a fresh game state
+    sf::RectangleShape newBodyPart(sf::Vector2f(25,25));
+    newBodyPart.setFillColor(sf::Color::Green);
+    snakeBody.push_back(newBodyPart);
     return;
 }
+
+// Constructor for snake with position
 Snake::Snake(sf::Vector2f head)
 {
     sf::RectangleShape newBodyPart(head);
@@ -131,5 +149,3 @@ Snake::Snake(sf::Vector2f head)
     snakeBody.push_back(newBodyPart);
     return;
 }
-// SnakeNode::SnakeNode();
-// SnakeNode::SnakeNode(sf::Vector2f addBodyPiece);

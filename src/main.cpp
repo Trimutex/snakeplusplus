@@ -3,18 +3,6 @@
 #include <SFML\System.hpp>
 #include "Snake.h"
 
-
-/*
-
-    TODO:
-    Add ability for body to extend when eating food
-    Each piece of queue has coordinates
-    If head touches food, just add to queue, don't pop
-
-*/
-
-
-
 int main()
 {
     int videoSizeHorizontal, videoSizeVertical;
@@ -43,7 +31,6 @@ int main()
             if ((event.type == sf::Event::Closed) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
                 window.close();
         }
-        // sf::Vector2f snakeFoodPosition = snakeFood.getPosition();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
             snakeDirection = 1;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
