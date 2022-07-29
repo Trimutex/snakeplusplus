@@ -1,19 +1,24 @@
 #include <iostream>
+#include <stdlib.h>
 #include <SFML\Graphics.hpp>
 #include <SFML\System.hpp>
+#include "GameState.h"
 #include "Snake.h"
 
 int main()
 {
-    int videoSizeHorizontal, videoSizeVertical;
-    videoSizeHorizontal = 1024;
-    videoSizeVertical = 725;
+    // int videoSizeHorizontal, videoSizeVertical;
+    // videoSizeHorizontal = 1024;
+    // videoSizeVertical = 725;
     /*
     gameGridHorizontal = (videoSizeHorizontal // 25) * 25;
     gameGridVertical = (videoSizeVertical // 25) * 25;
     */
-    sf::RenderWindow window(sf::VideoMode(videoSizeHorizontal, videoSizeVertical), "SnakePlusPlus");
-    sf::Time delay = sf::milliseconds(50);
+    // GameState newGame(1200, 1000);
+    GameState newGame;
+    sf::RenderWindow window(sf::VideoMode(newGame.videoSizeHorizontal, newGame.videoSizeVertical), "SnakePlusPlus");
+    // window = newGame.window;
+    sf::Time delay = sf::milliseconds(25);
 
     int snakeDirection = 0;
     Snake Player(sf::Vector2f(25,25));
