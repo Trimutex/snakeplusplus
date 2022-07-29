@@ -5,20 +5,16 @@
 
 GameState::GameState()
 {
-    videoSizeHorizontal = 1024;
-    videoSizeVertical = 725;
-    // sf::Vector2u newVideoSize(videoSizeHorizontal, videoSizeVertical);
-    // window.setSize(newVideoSize);
-    // window.setTitle("SnakePlusPlus");
+    sf::VideoMode tempVideoMode(1024, 725);
+    gameVideoMode = tempVideoMode;
+    sf::RenderWindow gameWindow(gameVideoMode, "SnakePlusPlus");
     return;
 }
 
 GameState::GameState(int newHorizontal, int newVertical)
 {
-    videoSizeHorizontal = newHorizontal;
-    videoSizeVertical = newVertical;
-    // sf::Vector2u newVideoSize(videoSizeHorizontal, videoSizeVertical);
-    // window.setSize(newVideoSize);
-    // window.setTitle("SnakePlusPlus");
+    sf::VideoMode tempVideoMode(newHorizontal, newVertical);
+    gameVideoMode = tempVideoMode;
+    sf::RenderWindow tempWindow(gameVideoMode, "SnakePlusPlus");
     return;
 }
