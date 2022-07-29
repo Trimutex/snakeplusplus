@@ -5,12 +5,16 @@
 class GameState
 {
 private:
-    int videoSizeHorizontal;
-    int videoSizeVertical;
-    sf::RenderWindow window;
 public:
+    sf::VideoMode gameVideoMode;
+    sf::RenderWindow gameWindow;
+    /*
+    gameGridHorizontal = (videoSizeHorizontal // 25) * 25;
+    gameGridVertical = (videoSizeVertical // 25) * 25;
+    */
     GameState();
     GameState(int newHorizontal, int newVertical);
+    // sf::Vector2f GetGameBoundaries();
 };
 
 #endif
