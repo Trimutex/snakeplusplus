@@ -1,6 +1,8 @@
 // GameState.h
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
+#include <SFML\Graphics.hpp>
+#include <SFML\System.hpp>
 
 class GameState
 {
@@ -8,12 +10,13 @@ private:
 public:
     sf::VideoMode gameVideoMode;
     sf::RenderWindow gameWindow;
+    GameState();
+    GameState(int newHorizontal, int newVertical);
+    void startNewGame();
     /*
     gameGridHorizontal = (videoSizeHorizontal // 25) * 25;
     gameGridVertical = (videoSizeVertical // 25) * 25;
     */
-    GameState();
-    GameState(int newHorizontal, int newVertical);
     // sf::Vector2f GetGameBoundaries();
 };
 
