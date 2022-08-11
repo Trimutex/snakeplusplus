@@ -70,8 +70,9 @@ void Snake::MoveSnake(sf::RectangleShape& snakeFood)
     CheckDirection();
     sf::Vector2f newHeadPosition;
     newHeadPosition = GetSnakeHeadPosition();
-    if (!CheckBoundaries())
-        newHeadPosition = CalculateNewPosition(snakeDirection, newHeadPosition);
+    if (CheckBoundaries())
+        return;
+    newHeadPosition = CalculateNewPosition(snakeDirection, newHeadPosition);
     sf::RectangleShape newBodyPart(sf::Vector2f(25,25));
     newBodyPart.setPosition(newHeadPosition);
     if (IsSelfCollision(newBodyPart)) // Do nothing if self collision
