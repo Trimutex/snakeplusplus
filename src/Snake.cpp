@@ -19,7 +19,7 @@ bool SnakeCollision(sf::RectangleShape object1, sf::RectangleShape object2)
 
 }
 
-// Move snake head piece
+// Check keyboard for new direction of snake
 void Snake::CheckDirection()
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -74,9 +74,8 @@ void Snake::MoveSnake(sf::RectangleShape& snakeFood)
         newHeadPosition = CalculateNewPosition(snakeDirection, newHeadPosition);
     sf::RectangleShape newBodyPart(sf::Vector2f(25,25));
     newBodyPart.setPosition(newHeadPosition);
-    if (IsSelfCollision(newBodyPart))
+    if (IsSelfCollision(newBodyPart)) // Do nothing if self collision
     {
-        // Do nothing if self collision
         return;
     }
     newBodyPart.setFillColor(sf::Color::Green);
