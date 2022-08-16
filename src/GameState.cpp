@@ -28,10 +28,6 @@ void GameState::startNewGame()
     int snakeDirection = 0;
     Snake player(sf::Vector2f(25,25));
     SnakeFood playerFood(sf::Vector2f(25,25));
-    // sf::RectangleShape snakeHead(sf::Vector2f(25,25));
-    sf::RectangleShape snakeFood(sf::Vector2f(25,25));
-    snakeFood.setFillColor(sf::Color::Red);
-    snakeFood.setPosition(25,25);
 
     while (gameWindow.isOpen())
     {

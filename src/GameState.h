@@ -2,7 +2,6 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 #include <SFML\Graphics.hpp>
-#include <SFML\System.hpp>
 
 class GameState
 {

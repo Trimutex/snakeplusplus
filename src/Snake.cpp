@@ -1,6 +1,5 @@
 #include <iostream>
 #include <SFML\Graphics.hpp>
-#include <SFML\System.hpp>
 #include "Snake.h"
 
 // Test for collision between two objects
