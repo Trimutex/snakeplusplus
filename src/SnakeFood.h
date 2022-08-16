@@ -10,7 +10,7 @@ public:
     sf::RectangleShape snakeFoodObject;
     SnakeFood();
     SnakeFood(sf::Vector2f snakeFoodSize);
-    int GenerateNewLocation(int maxLocation);
+    void GenerateNewLocation(int horizontalLocation, int verticalLocation);
 };
 
 #endif

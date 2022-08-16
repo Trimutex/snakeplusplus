@@ -1,3 +1,4 @@
+// SnakeFood.cpp
 #include <random>
 #include "SnakeFood.h"
 
@@ -13,11 +14,18 @@ SnakeFood::SnakeFood(sf::Vector2f snakeFoodSize)
     snakeFoodObject.setFillColor(sf::Color::Red);
 }
 
-int SnakeFood::GenerateNewLocation(int maxLocation)
+void SnakeFood::GenerateNewLocation(int horizontalLocation, int verticalLocation)
 {
-    int newPosition;
-    std::default_random_engine generator;
-    std::uniform_int_distribution<int> distribution(0, maxLocation);
-    newPosition = distribution(generator);
-    return newPosition;
+    sf::Vector2f newPosition;
+    std::default_random_engine generator(time(NULL));
+    std::uniform_int_distribution<int> distributionX(0, horizontalLocation);
+    std::uniform_int_distribution<int> distributionY(0, verticalLocation);
+    int newX = distributionX(generator);
+    int newY = distributionY(generator);
+    newX = newX - (newX % 25) - 25;
+    newY = newY - (newY % 25) - 25;
+    newPosition.x = newX;
+    newPosition.y = newY;
+    snakeFoodObject.setPosition(newPosition);
+    return;
 }

@@ -1,4 +1,4 @@
-// #include <iostream>
+// GameState.cpp
 #include <SFML\Graphics.hpp>
 #include <SFML\System.hpp>
 #include "Snake.h"
@@ -24,7 +24,7 @@ GameState::GameState(int newHorizontal, int newVertical)
 void GameState::startNewGame()
 {
     gameWindow.create(gameVideoMode, "SnakePlusPlus");
-    sf::Time delay = sf::milliseconds(25);
+    sf::Time delay = sf::milliseconds(50);
     int snakeDirection = 0;
     Snake player(sf::Vector2f(25,25));
     SnakeFood playerFood(sf::Vector2f(25,25));
@@ -37,15 +37,8 @@ void GameState::startNewGame()
             if ((event.type == sf::Event::Closed) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
                 gameWindow.close();
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            snakeDirection = 1;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            snakeDirection = 2;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            snakeDirection = 3;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            snakeDirection = 4;
-        player.MoveSnake(playerFood.snakeFoodObject);
+        player.CheckDirection();
+        player.MoveSnake(playerFood, gameVideoMode);
         gameWindow.clear();
         player.DisplaySnake(gameWindow);
         gameWindow.draw(playerFood.snakeFoodObject);

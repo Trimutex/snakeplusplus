@@ -2,6 +2,7 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 #include <queue>
+#include "SnakeFood.h"
 
 bool SnakeCollision(sf::RectangleShape object1, sf::RectangleShape object2);
 int SnakeMovement();
@@ -18,7 +19,8 @@ public:
     sf::Vector2f GetSnakeHeadPosition();
     sf::RectangleShape GetSnakeHead();
     void DisplaySnake(sf::RenderWindow& window);
-    void MoveSnake(sf::RectangleShape& snakeFood);
+    void MoveSnake(SnakeFood& playerFood, sf::VideoMode gameVideoMode);
+    void SnakeFoodCollision(SnakeFood& snakeFood, sf::VideoMode gameVideoMode);
     void CheckDirection();
     bool CheckBoundaries();
     bool IsSelfCollision(sf::RectangleShape testRectangle);
