@@ -24,7 +24,7 @@ GameState::GameState(int newHorizontal, int newVertical)
 void GameState::startNewGame()
 {
     gameWindow.create(gameVideoMode, "SnakePlusPlus");
-    sf::Time delay = sf::milliseconds(50);
+    sf::Time delay = sf::milliseconds(100);
     int snakeDirection = 0;
     Snake player(sf::Vector2f(25,25));
     SnakeFood playerFood(sf::Vector2f(25,25));

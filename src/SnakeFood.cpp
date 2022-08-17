@@ -1,5 +1,7 @@
 // SnakeFood.cpp
-#include <random>
+#include <iostream>
+#include <SFML\Graphics.hpp>
+#include "GeneralFunctions.h"
 #include "SnakeFood.h"
 
 SnakeFood::SnakeFood()
@@ -17,15 +19,13 @@ SnakeFood::SnakeFood(sf::Vector2f snakeFoodSize)
 void SnakeFood::GenerateNewLocation(int horizontalLocation, int verticalLocation)
 {
     sf::Vector2f newPosition;
-    std::default_random_engine generator(time(NULL));
-    std::uniform_int_distribution<int> distributionX(0, horizontalLocation);
-    std::uniform_int_distribution<int> distributionY(0, verticalLocation);
-    int newX = distributionX(generator);
-    int newY = distributionY(generator);
-    newX = newX - (newX % 25) - 25;
-    newY = newY - (newY % 25) - 25;
-    newPosition.x = newX;
-    newPosition.y = newY;
+    newPosition.x = GenerateRandomNumber(horizontalLocation);
+    newPosition.y = GenerateRandomNumber(verticalLocation);
+    if (GlobalCollision(snakeFoodObject.getPosition(), newPosition))
+        {
+            std::cout << "Location error: " << newPosition.x << " " << newPosition.y << '\n';
+            throw std::runtime_error("Error! New generation on same location");
+        }
     snakeFoodObject.setPosition(newPosition);
     return;
 }

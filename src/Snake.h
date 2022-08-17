@@ -4,9 +4,6 @@
 #include <queue>
 #include "SnakeFood.h"
 
-bool SnakeCollision(sf::RectangleShape object1, sf::RectangleShape object2);
-int SnakeMovement();
-sf::Vector2f CalculateNewPosition(int direction, sf::Vector2f position);
 
 class Snake
 {
