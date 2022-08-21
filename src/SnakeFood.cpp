@@ -1,8 +1,8 @@
 // SnakeFood.cpp
 #include <iostream>
 #include <SFML\Graphics.hpp>
-#include "GeneralFunctions.h"
 #include "SnakeFood.h"
+#include "Snake.h"
 
 SnakeFood::SnakeFood()
 {
@@ -28,4 +28,14 @@ void SnakeFood::GenerateNewLocation(int horizontalLocation, int verticalLocation
         }
     snakeFoodObject.setPosition(newPosition);
     return;
+}
+
+
+int SnakeFood::GenerateRandomNumber(int generationLimit)
+{
+    int generatedNumber;
+    std::uniform_int_distribution<> distribution(0, generationLimit);
+    generatedNumber = distribution(generator);
+    generatedNumber -= (generatedNumber % 25);
+    return generatedNumber;
 }

@@ -2,7 +2,6 @@
 #include <SFML\Graphics.hpp>
 #include <SFML\System.hpp>
 #include "Snake.h"
-#include "SnakeFood.h"
 #include "GameState.h"
 
 GameState::GameState()
