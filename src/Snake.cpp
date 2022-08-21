@@ -1,22 +1,35 @@
+// Snake.cpp
 #include <iostream>
+#include <queue>
 #include <SFML\Graphics.hpp>
-#include <SFML\System.hpp>
 #include "Snake.h"
+#include "SnakeFood.h"
 
-// Test for collision between two objects
-bool SnakeCollision(sf::RectangleShape object1, sf::RectangleShape object2)
+// Get a new coordinate position based on snake direction
+sf::Vector2f CalculateNewPosition(int direction, sf::Vector2f position)
 {
-    // Hack for getting a temporary collision
-    // Collision only tested for origin corrordinate
-    sf::Vector2f object1Position = object1.getPosition();
-    sf::Vector2f object2Position = object2.getPosition();
+    if (direction == 0)
+        return position;
+    if (direction == 1)
+        position.x -= 25;
+    if (direction == 2)
+        position.y -= 25;
+    if (direction == 3)
+        position.y += 25;
+    if (direction == 4)
+        position.x += 25;
+    return position;
+}
+
+// Test for collision between two object positions
+bool GlobalCollision(sf::Vector2f object1Position, sf::Vector2f object2Position)
+{
     if (object1Position.x != object2Position.x)
         return 0;
     if (object1Position.y != object2Position.y)
         return 0;
 
     return 1;
-
 }
 
 // Check keyboard for new direction of snake
@@ -48,26 +61,10 @@ bool Snake::CheckBoundaries()
     return false;
 }
 
-// Get a new coordinate position based on snake direction
-sf::Vector2f CalculateNewPosition(int direction, sf::Vector2f position)
-{
-    if (direction == 0)
-        return position;
-    if (direction == 1)
-        position.x -= 25;
-    if (direction == 2)
-        position.y -= 25;
-    if (direction == 3)
-        position.y += 25;
-    if (direction == 4)
-        position.x += 25;
-    return position;
-}
-
 // Move snake based on direction and test for eating food
-void Snake::MoveSnake(sf::RectangleShape& snakeFood)
+void Snake::MoveSnake(SnakeFood& snakeFood, sf::VideoMode gameVideoMode)
 {
-    CheckDirection();
+    // CheckDirection();
     sf::Vector2f newHeadPosition;
     newHeadPosition = GetSnakeHeadPosition();
     if (CheckBoundaries())
@@ -81,15 +78,9 @@ void Snake::MoveSnake(sf::RectangleShape& snakeFood)
     }
     newBodyPart.setFillColor(sf::Color::Green);
     snakeBody.push_front(newBodyPart);
-    if (!SnakeCollision(GetSnakeHead(), snakeFood))
+    if (!GlobalCollision(GetSnakeHead().getPosition(), snakeFood.snakeFoodObject.getPosition()))
         snakeBody.pop_back();
-    else if (SnakeCollision(GetSnakeHead(), snakeFood))
-    {
-        sf::Vector2f snakeFoodPosition = snakeFood.getPosition();
-        snakeFoodPosition.x += 25;
-        snakeFoodPosition.y += 25;
-        snakeFood.setPosition(snakeFoodPosition.x, snakeFoodPosition.y);
-    }
+    SnakeFoodCollision(snakeFood, gameVideoMode);
     return;
 }
 
@@ -124,12 +115,22 @@ bool Snake::IsSelfCollision(sf::RectangleShape testRectangle)
 {
     for (auto it = snakeBody.cbegin(); it != snakeBody.cend(); ++it)
     {
-        if (SnakeCollision(testRectangle, *it))
+        if (GlobalCollision(testRectangle.getPosition(), (*it).getPosition()))
         {
             return true;
         }
     }
     return false;
+}
+
+// If player collides with food then generate until no longer collided with food
+void Snake::SnakeFoodCollision(SnakeFood& snakeFood, sf::VideoMode gameVideoMode)
+{
+    while(IsSelfCollision(snakeFood.snakeFoodObject))
+    {
+        snakeFood.GenerateNewLocation(gameVideoMode.width, gameVideoMode.height);
+    }
+    return;
 }
 
 // General constructor for snake class
