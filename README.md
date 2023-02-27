@@ -2,12 +2,10 @@
 A version of Snake made in C++ and using SFML
 
 ## Controls
------------
   - Use the arrow keys to move the Snake
   - Use the escape key to close the game
 
 ## Compiling the game
-------------------
 
 Prerequisites
   - C++11
