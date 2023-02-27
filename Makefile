@@ -11,4 +11,7 @@ compile:
 	g++ $(INC) $(STD) -c -o build/SnakeFood.o src/SnakeFood.cpp
 
 link:
-	g++ build/*.o -o bin/SnakePlusPlus.out $(SFML)
+	g++ build/*.o -o bin/SnakePlusPlus $(SFML)
+
+clean:
+	rm bin/*.o build/*.out
