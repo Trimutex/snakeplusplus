@@ -32,3 +32,8 @@
 *.app
 *.json
 *.ps1
+
+# Extras
+.vs*
+build
+bin

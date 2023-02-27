@@ -2,6 +2,10 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
+#include <deque>
+#include <SFML\Graphics.hpp>
+#include "SnakeFood.h"
+
 sf::Vector2f CalculateNewPosition(int direction, sf::Vector2f position);
 bool GlobalCollision(sf::Vector2f object1Position, sf::Vector2f object2Position);
 
