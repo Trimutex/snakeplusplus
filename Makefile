@@ -2,7 +2,10 @@ INC := -I include
 STD := -std=c++11
 SFML := -lsfml-graphics -lsfml-window -lsfml-system
 
-all: compile link
+all: dirs compile link
+
+dirs:
+	mkdir bin build
 
 compile:
 	g++ $(INC) $(STD) -c -o build/main.o src/main.cpp
