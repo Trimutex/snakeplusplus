@@ -2,7 +2,9 @@ INC := -I include
 STD := -std=c++11
 SFML := -lsfml-graphics -lsfml-window -lsfml-system
 
-all: dirs compile link
+all: compile link
+
+fresh: dirs compile link
 
 dirs:
 	mkdir bin build

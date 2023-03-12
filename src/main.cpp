@@ -2,6 +2,6 @@
 
 int main()
 {
-    GameState newGame;
-    newGame.startNewGame();
+    GameState game;
+    game.StartGame();
 }

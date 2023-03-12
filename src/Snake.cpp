@@ -5,19 +5,37 @@
 #include "Snake.h"
 #include "SnakeFood.h"
 
+// General constructor for snake class
+Snake::Snake()
+{
+    sf::RectangleShape newBodyPart(sf::Vector2f(kGridSize, kGridSize));
+    newBodyPart.setFillColor(sf::Color::Green);
+    snakeBody.push_back(newBodyPart);
+    return;
+}
+
+// Constructor for snake with position
+Snake::Snake(sf::Vector2f headSize)
+{
+    sf::RectangleShape newBodyPart(headSize);
+    newBodyPart.setFillColor(sf::Color::Green);
+    snakeBody.push_back(newBodyPart);
+    return;
+}
+
 // Get a new coordinate position based on snake direction
 sf::Vector2f CalculateNewPosition(int direction, sf::Vector2f position)
 {
     if (direction == 0)
         return position;
     if (direction == 1)
-        position.x -= 25;
+        position.x -= kGridSize;
     if (direction == 2)
-        position.y -= 25;
+        position.y -= kGridSize;
     if (direction == 3)
-        position.y += 25;
+        position.y += kGridSize;
     if (direction == 4)
-        position.x += 25;
+        position.x += kGridSize;
     return position;
 }
 
@@ -70,7 +88,7 @@ void Snake::MoveSnake(SnakeFood& snakeFood, sf::VideoMode gameVideoMode)
     if (CheckBoundaries())
         return;
     newHeadPosition = CalculateNewPosition(snakeDirection, newHeadPosition);
-    sf::RectangleShape newBodyPart(sf::Vector2f(25,25));
+    sf::RectangleShape newBodyPart(sf::Vector2f(kGridSize, kGridSize));
     newBodyPart.setPosition(newHeadPosition);
     if (IsSelfCollision(newBodyPart)) // Do nothing if self collision
     {
@@ -78,9 +96,8 @@ void Snake::MoveSnake(SnakeFood& snakeFood, sf::VideoMode gameVideoMode)
     }
     newBodyPart.setFillColor(sf::Color::Green);
     snakeBody.push_front(newBodyPart);
-    if (!GlobalCollision(GetSnakeHead().getPosition(), snakeFood.snakeFoodObject.getPosition()))
+    if (!GlobalCollision(GetSnakeHead().getPosition(), snakeFood.GetFoodObject().getPosition()))
         snakeBody.pop_back();
-    SnakeFoodCollision(snakeFood, gameVideoMode);
     return;
 }
 
@@ -123,30 +140,16 @@ bool Snake::IsSelfCollision(sf::RectangleShape testRectangle)
     return false;
 }
 
-// If player collides with food then generate until no longer collided with food
-void Snake::SnakeFoodCollision(SnakeFood& snakeFood, sf::VideoMode gameVideoMode)
+// Checks if snake position matches object position
+bool Snake::IsTouchingObject(sf::RectangleShape object)
 {
-    while(IsSelfCollision(snakeFood.snakeFoodObject))
+    for (auto snakeBodyPart = snakeBody.cbegin(); snakeBodyPart != snakeBody.cend(); ++snakeBodyPart)
     {
-        snakeFood.GenerateNewLocation(gameVideoMode.width, gameVideoMode.height);
+        if ((*snakeBodyPart).getPosition().x != object.getPosition().x)
+            continue;
+        if ((*snakeBodyPart).getPosition().y != object.getPosition().y)
+            continue;
+        return true;
     }
-    return;
-}
-
-// General constructor for snake class
-Snake::Snake()
-{
-    sf::RectangleShape newBodyPart(sf::Vector2f(25,25));
-    newBodyPart.setFillColor(sf::Color::Green);
-    snakeBody.push_back(newBodyPart);
-    return;
-}
-
-// Constructor for snake with position
-Snake::Snake(sf::Vector2f head)
-{
-    sf::RectangleShape newBodyPart(head);
-    newBodyPart.setFillColor(sf::Color::Green);
-    snakeBody.push_back(newBodyPart);
-    return;
+    return false;
 }

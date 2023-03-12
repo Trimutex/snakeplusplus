@@ -6,42 +6,68 @@
 
 GameState::GameState()
 {
-    sf::VideoMode tempVideoMode(1024, 725);
-    gameVideoMode = tempVideoMode;
-    sf::RenderWindow gameWindow(gameVideoMode, "SnakePlusPlus");
+    delay = sf::milliseconds(100);
+    gameVideoSettings = sf::VideoMode(1024, 725);
+    gameWindow.create(gameVideoSettings, "SnakePlusPlus");
     return;
 }
 
-GameState::GameState(int newHorizontal, int newVertical)
+GameState::GameState(int maxHorizontal, int maxVertical)
 {
-    sf::VideoMode tempVideoMode(newHorizontal, newVertical);
-    gameVideoMode = tempVideoMode;
-    sf::RenderWindow tempWindow(gameVideoMode, "SnakePlusPlus");
+    delay = sf::milliseconds(100);
+    gameVideoSettings = sf::VideoMode(maxHorizontal, maxVertical);
+    gameWindow.create(gameVideoSettings, "SnakePlusPlus");
     return;
 }
 
-void GameState::startNewGame()
+void GameState::StartGame()
 {
-    gameWindow.create(gameVideoMode, "SnakePlusPlus");
-    sf::Time delay = sf::milliseconds(100);
-    int snakeDirection = 0;
-    Snake player(sf::Vector2f(25,25));
-    SnakeFood playerFood(sf::Vector2f(25,25));
+    gameWindow.create(gameVideoSettings, "SnakePlusPlus");
+    Snake player(sf::Vector2f(kGridSize,kGridSize));
+    SnakeFood playerFood(sf::Vector2f(kGridSize,kGridSize));
+    RunGameLoop();
+}
 
+sf::Vector2f GameState::GetGameBoundaries(void)
+{
+    sf::Vector2f boundaries;
+    boundaries.x = gameVideoSettings.width;
+    boundaries.y = gameVideoSettings.height;
+    return boundaries;
+}
+
+// Generates new food until not colliding with player
+void GameState::RegenerateFood(void)
+{
+    // Keep making new food until generating a valid spot
+    while (player.IsTouchingObject(playerFood.GetFoodObject()))
+        playerFood.GenerateNewFood(GetGameBoundaries());
+    return;
+}
+
+void GameState::RunGameLoop(void)
+{
+    sf::Event event;
     while (gameWindow.isOpen())
     {
-        sf::Event event;
         while (gameWindow.pollEvent(event))
         {
-            if ((event.type == sf::Event::Closed) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
+            if ((event.type == sf::Event::Closed) || 
+                (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
                 gameWindow.close();
         }
         player.CheckDirection();
-        player.MoveSnake(playerFood, gameVideoMode);
-        gameWindow.clear();
-        player.DisplaySnake(gameWindow);
-        gameWindow.draw(playerFood.snakeFoodObject);
-        gameWindow.display();
+        player.MoveSnake(playerFood, gameVideoSettings);
+        RegenerateFood();
+        RenderWindow();
         sf::sleep(delay);
     }
+}
+
+void GameState::RenderWindow(void)
+{
+    gameWindow.clear();
+    player.DisplaySnake(gameWindow);
+    gameWindow.draw(playerFood.GetFoodObject());
+    gameWindow.display();
 }

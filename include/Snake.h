@@ -11,9 +11,6 @@ bool GlobalCollision(sf::Vector2f object1Position, sf::Vector2f object2Position)
 
 class Snake
 {
-private:
-    std::deque<sf::RectangleShape> snakeBody;
-    int snakeDirection = 0;
 public:
     Snake();
     Snake(sf::Vector2f head);
@@ -21,10 +18,15 @@ public:
     sf::RectangleShape GetSnakeHead();
     void DisplaySnake(sf::RenderWindow& window);
     void MoveSnake(SnakeFood& playerFood, sf::VideoMode gameVideoMode);
-    void SnakeFoodCollision(SnakeFood& snakeFood, sf::VideoMode gameVideoMode);
     void CheckDirection();
     bool CheckBoundaries();
     bool IsSelfCollision(sf::RectangleShape testRectangle);
+    bool IsTouchingObject(sf::RectangleShape object);
+protected:
+    ;
+private:
+    std::deque<sf::RectangleShape> snakeBody;
+    int snakeDirection = 0;
 };
 
 
