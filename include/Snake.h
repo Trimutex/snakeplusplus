@@ -6,24 +6,25 @@
 #include <SFML\Graphics.hpp>
 #include "SnakeFood.h"
 
-sf::Vector2f CalculateNewPosition(int direction, sf::Vector2f position);
-bool GlobalCollision(sf::Vector2f object1Position, sf::Vector2f object2Position);
 
 class Snake
 {
+public:
+    Snake(void);
+    Snake(sf::Vector2f head);
+    void DisplaySnake(sf::RenderWindow& window);
+    sf::RectangleShape GetSnakeHead(void);
+    sf::Vector2f GetSnakeHeadPosition(void);
+    bool IsTouchingObject(sf::RectangleShape object);
+    void MoveSnake(SnakeFood* playerFood);
+    void UpdateDirection(int newDirection);
+protected:
+    ;
 private:
     std::deque<sf::RectangleShape> snakeBody;
     int snakeDirection = 0;
-public:
-    Snake();
-    Snake(sf::Vector2f head);
-    sf::Vector2f GetSnakeHeadPosition();
-    sf::RectangleShape GetSnakeHead();
-    void DisplaySnake(sf::RenderWindow& window);
-    void MoveSnake(SnakeFood& playerFood, sf::VideoMode gameVideoMode);
-    void SnakeFoodCollision(SnakeFood& snakeFood, sf::VideoMode gameVideoMode);
-    void CheckDirection();
-    bool CheckBoundaries();
+    sf::Vector2f CalculateNewPosition(sf::Vector2f position);
+    bool CheckBoundaries(void);
     bool IsSelfCollision(sf::RectangleShape testRectangle);
 };
 

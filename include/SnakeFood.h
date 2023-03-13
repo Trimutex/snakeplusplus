@@ -1,18 +1,23 @@
 // SnakeFood.h
 #ifndef SNAKEFOOD_H
 #define SNAKEFOOD_H
-#include <random>
+
 #include <SFML\Graphics.hpp>
+#include <random>
 
 class SnakeFood
 {
-private:
 public:
-    sf::RectangleShape snakeFoodObject;
-    std::default_random_engine generator;
     SnakeFood();
     SnakeFood(sf::Vector2f snakeFoodSize);
-    void GenerateNewLocation(int horizontalLocation, int verticalLocation);
+    void GenerateNewFood(sf::Vector2f windowSize);
+    sf::RectangleShape GetFoodObject(void);
+    sf::Vector2f GetFoodObjectPosition(void);
+protected:
+    ;
+private:
+    sf::RectangleShape snakeFoodObject;
+    std::default_random_engine generator;
     int GenerateRandomNumber(int generationLimit);
 };
 
