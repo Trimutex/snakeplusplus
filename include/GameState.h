@@ -20,7 +20,9 @@ private:
     SnakeFood playerFood;
     Snake player;
     sf::Time delay;
+    void DisplayEndScreen(void);
     void GetKeyboardInput(void);
+    bool PlayerWantsToContinue(void);
     void RegenerateFood(void);
     void RunGameLoop(void);
     void RenderWindow(void);

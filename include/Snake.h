@@ -10,21 +10,25 @@
 class Snake
 {
 public:
+    bool gameFinished = false;
     Snake(void);
-    Snake(sf::Vector2f head);
     void DisplaySnake(sf::RenderWindow& window);
     sf::RectangleShape GetSnakeHead(void);
     sf::Vector2f GetSnakeHeadPosition(void);
     bool IsTouchingObject(sf::RectangleShape object);
     void MoveSnake(SnakeFood* playerFood);
+    void Reset(void);
     void UpdateDirection(int newDirection);
 protected:
     ;
 private:
     std::deque<sf::RectangleShape> snakeBody;
+    sf::Vector2f bodyPartSize;
     int snakeDirection = 0;
+    void AddBodyPart(sf::RectangleShape newBodyPart);
     sf::Vector2f CalculateNewPosition(sf::Vector2f position);
     bool CheckBoundaries(void);
+    void CreateHead(void);
     bool IsSelfCollision(sf::RectangleShape testRectangle);
 };
 

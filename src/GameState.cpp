@@ -24,9 +24,26 @@ GameState::GameState(int maxHorizontal, int maxVertical)
 void GameState::StartGame()
 {
     gameWindow.create(gameVideoSettings, "SnakePlusPlus");
-    Snake player(sf::Vector2f(kGridSize,kGridSize));
-    SnakeFood playerFood(sf::Vector2f(kGridSize,kGridSize));
     RunGameLoop();
+    return;
+}
+
+void GameState::DisplayEndScreen(void)
+{
+    gameWindow.clear();
+    sf::Vector2f textPosition(GetGameBoundaries());
+    textPosition.x = textPosition.x / 2;
+    textPosition.y = textPosition.y / 2;
+    sf::Text gameOverText;
+    gameOverText.setString("Game Over");
+    gameOverText.setCharacterSize(30);
+    gameOverText.setPosition(textPosition);
+    gameWindow.draw(gameOverText);
+    gameWindow.display();
+    if (!PlayerWantsToContinue())
+        return;
+    player.Reset();
+    gameWindow.clear();
     return;
 }
 
@@ -58,6 +75,24 @@ void GameState::GetKeyboardInput(void)
     return;
 }
 
+bool GameState::PlayerWantsToContinue(void)
+{
+    sf::Event event;
+    while (true)
+    {
+        while (gameWindow.pollEvent(event))
+        {
+            if ((event.type == sf::Event::Closed) || 
+                (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
+                gameWindow.close();
+            return false;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+            return true;
+        sf::sleep(delay);
+    }
+}
+
 // Generates new food until not colliding with player
 void GameState::RegenerateFood(void)
 {
@@ -86,5 +121,7 @@ void GameState::RenderWindow(void)
     player.DisplaySnake(gameWindow);
     gameWindow.draw(playerFood.GetFoodObject());
     gameWindow.display();
+    if (player.gameFinished)
+        DisplayEndScreen();
     return;
 }
