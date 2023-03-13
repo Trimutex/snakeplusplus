@@ -2,10 +2,8 @@
 #ifndef SNAKEFOOD_H
 #define SNAKEFOOD_H
 
-#include <random>
 #include <SFML\Graphics.hpp>
-
-extern const int kGridSize;
+#include <random>
 
 class SnakeFood
 {
@@ -14,6 +12,7 @@ public:
     SnakeFood(sf::Vector2f snakeFoodSize);
     void GenerateNewFood(sf::Vector2f windowSize);
     sf::RectangleShape GetFoodObject(void);
+    sf::Vector2f GetFoodObjectPosition(void);
 protected:
     ;
 private:

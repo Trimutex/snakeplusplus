@@ -12,10 +12,6 @@ public:
     GameState(int newHorizontal, int newVertical);
     void StartGame(void);
     sf::Vector2f GetGameBoundaries(void);
-    /*
-    gameGridHorizontal = (videoSizeHorizontal // 25) * 25;
-    gameGridVertical = (videoSizeVertical // 25) * 25;
-    */
 protected:
     ;
 private:
@@ -24,6 +20,7 @@ private:
     SnakeFood playerFood;
     Snake player;
     sf::Time delay;
+    void GetKeyboardInput(void);
     void RegenerateFood(void);
     void RunGameLoop(void);
     void RenderWindow(void);

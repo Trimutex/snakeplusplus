@@ -1,20 +1,22 @@
 // SnakeFood.cpp
 #include <iostream>
 #include <SFML\Graphics.hpp>
+#include "Common.h"
 #include "SnakeFood.h"
 
-const int kGridSize = 25;
 
 SnakeFood::SnakeFood()
 {
-    snakeFoodObject.setSize(sf::Vector2f(kGridSize,kGridSize));
+    snakeFoodObject.setSize(sf::Vector2f(kGridSize,  kGridSize));
     snakeFoodObject.setFillColor(sf::Color::Red);
+    return;
 }
 
 SnakeFood::SnakeFood(sf::Vector2f snakeFoodSize)
 {
     snakeFoodObject.setSize(snakeFoodSize);
     snakeFoodObject.setFillColor(sf::Color::Red);
+    return;
 }
 
 // Returns a new food object for the snakeFood
@@ -24,16 +26,17 @@ void SnakeFood::GenerateNewFood(sf::Vector2f windowSize)
     newPosition.x = GenerateRandomNumber(windowSize.x);
     newPosition.y = GenerateRandomNumber(windowSize.y);
     snakeFoodObject.setPosition(newPosition);
-    // if (GlobalCollision(snakeFoodObject.getPosition(), newPosition))
-    // {
-    //     std::cout << "Location error: " << newPosition.x << " " << newPosition.y << '\n';
-    //     throw std::runtime_error("Error! New generation on same location");
-    // }
+    return;
 }
 
 sf::RectangleShape SnakeFood::GetFoodObject(void)
 {
     return snakeFoodObject;
+}
+
+sf::Vector2f SnakeFood::GetFoodObjectPosition(void)
+{
+    return snakeFoodObject.getPosition();
 }
 
 // Returns a newly generated number
