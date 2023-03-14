@@ -2,9 +2,9 @@
 #include <iostream>
 #include <queue>
 #include <SFML\Graphics.hpp>
-#include "Common.h"
-#include "Snake.h"
-#include "SnakeFood.h"
+#include "common.h"
+#include "snake.h"
+#include "snakeFood.h"
 
 // General constructor for snake class
 Snake::Snake(void)
@@ -77,14 +77,6 @@ void Snake::MoveSnake(SnakeFood* snakeFood)
     if (!GlobalCollision(GetSnakeHeadPosition(), snakeFood->GetFoodObjectPosition()))
         snakeBody.pop_back();
     return;
-}
-
-void Snake::Reset(void)
-{
-    snakeBody.clear();
-    gameFinished = false;
-    CreateHead();
-    snakeDirection = kRight;
 }
 
 void Snake::UpdateDirection(int newDirection)

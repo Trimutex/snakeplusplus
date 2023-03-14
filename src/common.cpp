@@ -1,4 +1,4 @@
-#include "Common.h"
+#include "common.h"
 
 // Test for collision between two object positions
 bool GlobalCollision(sf::Vector2f object1Position, sf::Vector2f object2Position)

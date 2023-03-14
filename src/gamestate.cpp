@@ -1,15 +1,19 @@
 // GameState.cpp
 #include <SFML\Graphics.hpp>
 #include <SFML\System.hpp>
-#include "Common.h"
-#include "Snake.h"
-#include "GameState.h"
+#include "common.h"
+#include "gamestate.h"
 
 GameState::GameState()
 {
     delay = sf::milliseconds(75);
     gameVideoSettings = sf::VideoMode(1025, 725);
     gameWindow.create(gameVideoSettings, "SnakePlusPlus");
+    if (useSFML)
+        graphics.reset(new GameWindow());
+    else
+        graphics.reset(new CommandLine());
+    
     return;
 }
 
@@ -42,7 +46,8 @@ void GameState::DisplayEndScreen(void)
     gameWindow.display();
     if (!PlayerWantsToContinue())
         return;
-    player.Reset();
+    player = Snake();
+    playerFood.GenerateNewFood(GetGameBoundaries());
     gameWindow.clear();
     return;
 }

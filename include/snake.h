@@ -4,7 +4,7 @@
 
 #include <deque>
 #include <SFML\Graphics.hpp>
-#include "SnakeFood.h"
+#include "snakefood.h"
 
 
 class Snake
@@ -17,7 +17,6 @@ public:
     sf::Vector2f GetSnakeHeadPosition(void);
     bool IsTouchingObject(sf::RectangleShape object);
     void MoveSnake(SnakeFood* playerFood);
-    void Reset(void);
     void UpdateDirection(int newDirection);
 protected:
     ;

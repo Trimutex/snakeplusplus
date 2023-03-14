@@ -2,12 +2,16 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
+#include <memory>
 #include <SFML\Graphics.hpp>
-#include "Snake.h"
+#include "snake.h"
+#include "display.h"
 
 class GameState
 {
 public:
+    std::vector< std::vector<char> > gameBoard;
+    bool useSFML = 1;
     GameState();
     GameState(int newHorizontal, int newVertical);
     void StartGame(void);
@@ -15,6 +19,7 @@ public:
 protected:
     ;
 private:
+    std::unique_ptr<DisplayInterface> graphics;
     sf::RenderWindow gameWindow;
     sf::VideoMode gameVideoSettings;
     SnakeFood playerFood;
