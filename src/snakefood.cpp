@@ -1,8 +1,8 @@
 // SnakeFood.cpp
 #include <iostream>
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "common.h"
-#include "snakeFood.h"
+#include "snakefood.h"
 
 
 SnakeFood::SnakeFood()

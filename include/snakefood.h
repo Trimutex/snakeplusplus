@@ -2,7 +2,7 @@
 #ifndef SNAKEFOOD_H
 #define SNAKEFOOD_H
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <random>
 
 class SnakeFood

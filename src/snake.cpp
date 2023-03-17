@@ -1,10 +1,10 @@
 // Snake.cpp
 #include <iostream>
 #include <queue>
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "common.h"
 #include "snake.h"
-#include "snakeFood.h"
+#include "snakefood.h"
 
 // General constructor for snake class
 Snake::Snake(void)

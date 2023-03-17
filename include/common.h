@@ -1,9 +1,7 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include <SFML\Graphics.hpp>
-
-const int kGridSize = 25;
+#include <SFML/Graphics.hpp>
 
 enum PlayerDirection
 {

@@ -3,7 +3,7 @@
 #define SNAKE_H
 
 #include <deque>
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "snakefood.h"
 
 
