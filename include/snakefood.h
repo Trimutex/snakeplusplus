@@ -9,14 +9,11 @@ class SnakeFood
 {
 public:
     SnakeFood();
-    SnakeFood(sf::Vector2f snakeFoodSize);
-    void GenerateNewFood(sf::Vector2f windowSize);
-    sf::RectangleShape GetFoodObject(void);
-    sf::Vector2f GetFoodObjectPosition(void);
+    sf::Vector2f GenerateNewFood(sf::Vector2f boundaries);
 protected:
     ;
 private:
-    sf::RectangleShape snakeFoodObject;
+    sf::Vector2f location;
     std::default_random_engine generator;
     int GenerateRandomNumber(int generationLimit);
 };

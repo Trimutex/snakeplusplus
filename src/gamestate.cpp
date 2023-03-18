@@ -1,4 +1,5 @@
 // GameState.cpp
+#include <string>
 #include <SFML/Graphics.hpp>
 #include "common.h"
 #include "display.h"
@@ -6,18 +7,34 @@
 
 GameState::GameState()
 {
-    if (useSFML)
-        graphics.reset(new SFML());
-    else
-        graphics.reset(new CommandLine());
     return;
+}
+
+void GameState::SetGameSettings(int argc, char* argv[])
+{
+    std::string convertedString;
+    for (int i = 0; i < argc; i++)
+    {
+        convertedString = argv[i];
+        if (convertedString == "--no-sfml")
+            useSFML = false;
+    }
 }
 
 void GameState::StartGame()
 {
+    ApplySettings();
     ResetGameBoard();
     RunGameLoop();
     return;
+}
+
+void GameState::ApplySettings(void)
+{
+    if (useSFML)
+        graphics.reset(new SFML());
+    else
+        graphics.reset(new CommandLine());
 }
 
 // TODO: Reimplement for DisplayInterface
@@ -32,24 +49,16 @@ sf::Vector2f GameState::GetGameBoundaries(void)
     return graphics->gameBoundaries;
 }
 
-// TODO: Reimplement for DisplayInterface
 void GameState::GetKeyboardInput(void)
 {
-    // sf::Event event;
-    // while (gameWindow.pollEvent(event))
-    // {
-    //     if ((event.type == SFML:Event::Closed) || 
-    //         (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
-    //         gameWindow.close();
-    // }
-    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-    //     player.UpdateDirection(kLeft);
-    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-    //     player.UpdateDirection(kUp);
-    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-    //     player.UpdateDirection(kDown);
-    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    //     player.UpdateDirection(kRight);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        player.UpdateDirection(kLeft);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        player.UpdateDirection(kUp);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        player.UpdateDirection(kDown);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        player.UpdateDirection(kRight);
     return;
 }
 
@@ -75,9 +84,12 @@ bool GameState::PlayerWantsToContinue(void)
 // Generates new food until not colliding with player
 void GameState::RegenerateFood(void)
 {
+    sf::Vector2f newLocation;
+    playerFood.GenerateNewFood(GetGameBoundaries());
     // Keep making new food until generating a valid spot
-    while (player.IsTouchingObject(playerFood.GetFoodObject()))
+    while (gameBoard.at(newLocation.y).at(newLocation.x) == 'o')
         playerFood.GenerateNewFood(GetGameBoundaries());
+    gameBoard.at(newLocation.y).at(newLocation.x) = 'x';
     return;
 }
 
@@ -97,7 +109,7 @@ void GameState::RunGameLoop(void)
     while (graphics->IsOpen())
     {
         GetKeyboardInput();
-        player.MoveSnake(&playerFood);
+        player.MoveSnake();
         RegenerateFood();
         RenderWindow();
     }

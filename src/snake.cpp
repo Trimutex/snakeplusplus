@@ -1,82 +1,32 @@
 // Snake.cpp
-#include <iostream>
 #include <queue>
 #include <SFML/Graphics.hpp>
 #include "common.h"
 #include "snake.h"
-#include "snakefood.h"
 
 // General constructor for snake class
 Snake::Snake(void)
 {
-    bodyPartSize = sf::Vector2f(kGridSize, kGridSize);
-    CreateHead();
+    CreateNewHead(sf::Vector2f(4,5));
     return;
-}
-
-// Iterate through snake deque and draw to window
-void Snake::DisplaySnake(sf::RenderWindow& window)
-{
-    for (auto snakeBodyPart = snakeBody.cbegin(); snakeBodyPart != snakeBody.cend(); ++snakeBodyPart)
-        window.draw(*snakeBodyPart);
-    return;
-}
-
-// Return the RectangleShape head of snake
-sf::RectangleShape Snake::GetSnakeHead(void)
-{
-    sf::RectangleShape head;
-    head = snakeBody.front();
-    return head;
-}
-
-// Return the Vector2f head of snake
-sf::Vector2f Snake::GetSnakeHeadPosition(void)
-{
-    sf::Vector2f position;
-    position = snakeBody.front().getPosition();
-    return position;
-}
-
-// Checks if snake position matches object position
-bool Snake::IsTouchingObject(sf::RectangleShape object)
-{
-    for (auto snakeBodyPart = snakeBody.cbegin(); snakeBodyPart != snakeBody.cend(); ++snakeBodyPart)
-    {
-        if ((*snakeBodyPart).getPosition().x != object.getPosition().x)
-            continue;
-        if ((*snakeBodyPart).getPosition().y != object.getPosition().y)
-            continue;
-        return true;
-    }
-    return false;
 }
 
 // Move snake based on direction and check for collision
-void Snake::MoveSnake(SnakeFood* snakeFood)
+sf::Vector2f Snake::MoveSnake(void)
 {
-    // TODO: Add losing on wall collision
-    if (CheckBoundaries()) // Wall collision
-    {
-        gameFinished = true;
-        return;
-    }
     sf::Vector2f newHeadPosition;
-    newHeadPosition = CalculateNewPosition(GetSnakeHeadPosition());
-    sf::RectangleShape newBodyPart(sf::Vector2f(kGridSize, kGridSize));
-    newBodyPart.setPosition(newHeadPosition);
-    // TODO: Add losing on self collision
-    if (IsSelfCollision(newBodyPart) && (snakeBody.size() > 1)) // Snake collision
-    {
-        gameFinished = true;
-        return;
-    }
-    if (IsSelfCollision(newBodyPart))
-        return;
-    AddBodyPart(newBodyPart);
-    if (!GlobalCollision(GetSnakeHeadPosition(), snakeFood->GetFoodObjectPosition()))
-        snakeBody.pop_back();
-    return;
+    newHeadPosition = CalculateNewHead();
+    CreateNewHead(newHeadPosition);
+    return newHeadPosition;
+}
+
+// Removes tail of snake
+// Returns the location of the tail
+sf::Vector2f Snake::Pop(void)
+{
+    sf::Vector2f tailLocation = snakeBody.front();
+    snakeBody.pop();
+    return tailLocation;
 }
 
 void Snake::UpdateDirection(int newDirection)
@@ -85,55 +35,22 @@ void Snake::UpdateDirection(int newDirection)
     return;
 }
 
-void Snake::AddBodyPart(sf::RectangleShape newBodyPart)
-{
-    newBodyPart.setFillColor(sf::Color::Green);
-    snakeBody.push_front(newBodyPart);
-}
-
 // Get a new coordinate position based on snake direction
-sf::Vector2f Snake::CalculateNewPosition(sf::Vector2f position)
+sf::Vector2f Snake::CalculateNewHead(void)
 {
-    if (snakeDirection == 0)
-        return position;
+    sf::Vector2f position = snakeBody.back();
     if (snakeDirection == kLeft)
-        position.x -= kGridSize;
+        position.x -= 1;
     if (snakeDirection == kUp)
-        position.y -= kGridSize;
+        position.y -= 1;
     if (snakeDirection == kDown)
-        position.y += kGridSize;
+        position.y += 1;
     if (snakeDirection == kRight)
-        position.x += kGridSize;
-    return position;
+        position.x += 1;
 }
 
-// Check snake head for running into boundaries
-bool Snake::CheckBoundaries(void)
+void Snake::CreateNewHead(sf::Vector2f headLocation)
 {
-    if (snakeBody.front().getPosition().x == 0 && snakeDirection == kLeft)
-        return true;
-    if (snakeBody.front().getPosition().y == 0 && snakeDirection == kUp)
-        return true;
-    // TODO: Change boundaries to not be hard-coded
-    if (snakeBody.front().getPosition().y > 675 && snakeDirection == kDown)
-        return true;
-    if (snakeBody.front().getPosition().x > 975 && snakeDirection == kRight)
-        return true;
-    return false;
-}
-
-void Snake::CreateHead(void)
-{
-    sf::RectangleShape newBodyPart(bodyPartSize);
-    newBodyPart.setFillColor(sf::Color::Green);
-    snakeBody.push_front(newBodyPart);
-}
-
-// Test for snake self collision
-bool Snake::IsSelfCollision(sf::RectangleShape testRectangle)
-{
-    for (auto snakeBodyPart = snakeBody.cbegin(); snakeBodyPart != snakeBody.cend(); ++snakeBodyPart)
-        if (GlobalCollision(testRectangle.getPosition(), (*snakeBodyPart).getPosition()))
-            return true;
-    return false;
+    snakeBody.push(headLocation);
+    return;
 }

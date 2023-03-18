@@ -5,22 +5,25 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 #include "snake.h"
+#include "snakefood.h"
 #include "display.h"
 
 class GameState
 {
 public:
-    std::vector< std::vector<char> > gameBoard;
-    bool useSFML = 1;
     GameState();
+    void SetGameSettings(int argc, char* argv[]);
     void StartGame(void);
     sf::Vector2f GetGameBoundaries(void);
 protected:
     ;
 private:
+    std::vector< std::vector<char> > gameBoard;
     std::unique_ptr<DisplayInterface> graphics;
-    SnakeFood playerFood;
     Snake player;
+    SnakeFood playerFood;
+    bool useSFML = 1;
+    void ApplySettings(void);
     void DisplayEndScreen(void);
     void GetKeyboardInput(void);
     bool PlayerWantsToContinue(void);

@@ -2,33 +2,24 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
-#include <deque>
+#include <queue>
 #include <SFML/Graphics.hpp>
-#include "snakefood.h"
 
 
 class Snake
 {
 public:
-    bool gameFinished = false;
     Snake(void);
-    void DisplaySnake(sf::RenderWindow& window);
-    sf::RectangleShape GetSnakeHead(void);
-    sf::Vector2f GetSnakeHeadPosition(void);
-    bool IsTouchingObject(sf::RectangleShape object);
-    void MoveSnake(SnakeFood* playerFood);
+    sf::Vector2f MoveSnake(void);
+    sf::Vector2f Pop(void);
     void UpdateDirection(int newDirection);
 protected:
     ;
 private:
-    std::deque<sf::RectangleShape> snakeBody;
-    sf::Vector2f bodyPartSize;
+    std::queue<sf::Vector2f> snakeBody;
     int snakeDirection = 0;
-    void AddBodyPart(sf::RectangleShape newBodyPart);
-    sf::Vector2f CalculateNewPosition(sf::Vector2f position);
-    bool CheckBoundaries(void);
-    void CreateHead(void);
-    bool IsSelfCollision(sf::RectangleShape testRectangle);
+    sf::Vector2f CalculateNewHead();
+    void CreateNewHead(sf::Vector2f);
 };
 
 
