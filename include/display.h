@@ -17,6 +17,7 @@ public:
     virtual void StartGameWindow(void) = 0;
 protected:
     bool isWindowAlive;
+    sf::Time delay = sf::milliseconds(75);
 private:
     ;
 };
@@ -32,7 +33,7 @@ public:
 protected:
     ;
 private:
-    ;
+    void Clear(void);
 };
 
 class SFML : public DisplayInterface
@@ -51,7 +52,6 @@ private:
     void DrawEmpty(sf::Vector2f location);
     void DrawFood(sf::Vector2f location);
     void DrawSnake(sf::Vector2f location);
-    sf::Time delay;
     sf::RenderWindow gameWindow;
     sf::VideoMode gameVideoSettings;
     sf::RectangleShape drawObject;

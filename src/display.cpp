@@ -33,15 +33,16 @@ void CommandLine::DisplayEndScreen(void)
     return;
 }
 
-// TODO: Use cout for printing game to screen
 void CommandLine::DisplayGameState(std::vector< std::vector<char> >* gameBoard)
 {
+    Clear();
     for (int i = 0; i < gameBoundaries.y; i++)
     {
         for (int j = 0; j < gameBoundaries.x; j++)
             std::cout << gameBoard->at(i).at(j);
         std::cout << std::endl;
     }
+    sf::sleep(delay);
 }
 
 void CommandLine::StartGameWindow(void)
@@ -50,9 +51,21 @@ void CommandLine::StartGameWindow(void)
     return;
 }
 
+void CommandLine::Clear(void)
+{
+#if defined _WIN32
+    system("cls");
+    //clrscr(); // including header file : conio.h
+#elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+    system("clear");
+    //std::cout<< u8"\033[2J\033[1;1H"; //Using ANSI Escape Sequences 
+#elif defined (__APPLE__)
+    system("clear");
+#endif
+}
+
 SFML::SFML(void)
 {
-    delay = sf::milliseconds(75);
     gameVideoSettings = sf::VideoMode(1025, 725);
     drawObject.setSize(sf::Vector2f(kGridSize, kGridSize));
     return;
@@ -115,6 +128,7 @@ void SFML::DisplayGameState(std::vector< std::vector<char> >* gameBoard)
         }
     }
     gameWindow.display();
+    sf::sleep(delay);
     return;
 }
 

@@ -9,7 +9,8 @@ class SnakeFood
 {
 public:
     SnakeFood();
-    sf::Vector2f GenerateNewFood(sf::Vector2f boundaries);
+    void GenerateNewFood(sf::Vector2f boundaries);
+    sf::Vector2f GetFoodLocation(void);
 protected:
     ;
 private:

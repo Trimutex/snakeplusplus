@@ -79,12 +79,17 @@ void GameState::PlayerWantsToContinue(void)
 // Generates new food until not colliding with player
 void GameState::RegenerateFood(void)
 {
-    sf::Vector2f newLocation;
-    playerFood.GenerateNewFood(GetGameBoundaries());
+    sf::Vector2f newLocation = playerFood.GetFoodLocation();
+    bool isUpdated = false;
     // Keep making new food until generating a valid spot
     while (gameBoard.at(newLocation.y).at(newLocation.x) == 'o')
+    {
+        isUpdated = true;
         playerFood.GenerateNewFood(GetGameBoundaries());
-    gameBoard.at(newLocation.y).at(newLocation.x) = 'x';
+        newLocation = playerFood.GetFoodLocation();
+    }
+    if (isUpdated)
+        gameBoard.at(newLocation.y).at(newLocation.x) = 'x';
     return;
 }
 
@@ -95,6 +100,10 @@ void GameState::ResetGameBoard(void)
     std::vector<char> tempBoard;
     tempBoard.resize(boardDimensions.x, ' ');
     gameBoard.resize(boardDimensions.y, tempBoard);
+    playerFood.GenerateNewFood(boardDimensions);
+    sf::Vector2f foodStartLocation = playerFood.GetFoodLocation();
+    gameBoard.at(foodStartLocation.y).at(foodStartLocation.x) = 'x';
+
     return;
 }
 

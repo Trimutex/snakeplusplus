@@ -47,6 +47,7 @@ sf::Vector2f Snake::CalculateNewHead(void)
         position.y += 1;
     if (snakeDirection == kRight)
         position.x += 1;
+    return position;
 }
 
 void Snake::CreateNewHead(sf::Vector2f headLocation)

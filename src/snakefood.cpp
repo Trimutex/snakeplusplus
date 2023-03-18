@@ -8,10 +8,14 @@ SnakeFood::SnakeFood()
 }
 
 // Returns a new food object for the snakeFood
-sf::Vector2f SnakeFood::GenerateNewFood(sf::Vector2f boundaries)
+void SnakeFood::GenerateNewFood(sf::Vector2f boundaries)
 {
     location.x = GenerateRandomNumber(boundaries.x);
     location.y = GenerateRandomNumber(boundaries.y);
+}
+
+sf::Vector2f SnakeFood::GetFoodLocation(void)
+{
     return location;
 }
 
