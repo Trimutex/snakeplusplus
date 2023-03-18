@@ -19,6 +19,14 @@ CommandLine::CommandLine(void)
     return;
 }
 
+void CommandLine::CheckContinue(void)
+{
+    int placeholder;
+    std::cout << "Press enter to play again.";
+    std::cin >> placeholder;
+    return;
+}
+
 void CommandLine::DisplayEndScreen(void)
 {
     std::cout << "Game Over!" << std::endl;
@@ -48,6 +56,24 @@ SFML::SFML(void)
     gameVideoSettings = sf::VideoMode(1025, 725);
     drawObject.setSize(sf::Vector2f(kGridSize, kGridSize));
     return;
+}
+
+void SFML::CheckContinue(void)
+{
+    sf::Event event;
+    while (true)
+    {
+        while (gameWindow.pollEvent(event))
+        {
+            if ((event.type == sf::Event::Closed) || 
+                (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
+                gameWindow.close();
+            return;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+            return;
+        sf::sleep(delay);
+    }
 }
 
 void SFML::DisplayEndScreen(void)

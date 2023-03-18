@@ -25,6 +25,7 @@ void GameState::StartGame()
 {
     ApplySettings();
     ResetGameBoard();
+    graphics->StartGameWindow();
     RunGameLoop();
     return;
 }
@@ -35,12 +36,13 @@ void GameState::ApplySettings(void)
         graphics.reset(new SFML());
     else
         graphics.reset(new CommandLine());
+    return;
 }
 
 // TODO: Reimplement for DisplayInterface
 void GameState::DisplayEndScreen(void)
 {
-    // graphics->DisplayEndScreen();
+    graphics->DisplayEndScreen();
     return;
 }
 
@@ -62,23 +64,16 @@ void GameState::GetKeyboardInput(void)
     return;
 }
 
-// TODO: Reimplement for DisplayInterface
-bool GameState::PlayerWantsToContinue(void)
+void GameState::PlaceNewSnakePart(sf::Vector2f location)
 {
-    // sf::Event event;
-    // while (true)
-    // {
-    //     while (gameWindow.pollEvent(event))
-    //     {
-    //         if ((event.type == sf::Event::Closed) || 
-    //             (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
-    //             gameWindow.close();
-    //         return false;
-    //     }
-    //     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-    //         return true;
-    //     sf::sleep(delay);
-    // }
+    gameBoard.at(location.y).at(location.x) = 'o';
+    return;
+}
+
+void GameState::PlayerWantsToContinue(void)
+{
+   graphics->CheckContinue();
+   return;
 }
 
 // Generates new food until not colliding with player
@@ -97,10 +92,9 @@ void GameState::ResetGameBoard(void)
 {
     gameBoard.clear();
     sf::Vector2f boardDimensions = GetGameBoundaries();
-    gameBoard.resize(boardDimensions.y);
-    for (int i = 0; i < boardDimensions.y; i++)
-        for (int j = 0; j < boardDimensions.x; j++)
-            gameBoard[i].push_back(' ');
+    std::vector<char> tempBoard;
+    tempBoard.resize(boardDimensions.x, ' ');
+    gameBoard.resize(boardDimensions.y, tempBoard);
     return;
 }
 
@@ -109,21 +103,12 @@ void GameState::RunGameLoop(void)
     while (graphics->IsOpen())
     {
         GetKeyboardInput();
-        player.MoveSnake();
+        PlaceNewSnakePart(player.MoveSnake());
         RegenerateFood();
-        RenderWindow();
+        graphics->DisplayGameState(&gameBoard);
+        if (isGameOver)
+            PlayerWantsToContinue();
     }
     return;
 }
 
-// TODO: Reimplement for DisplayInterface
-void GameState::RenderWindow(void)
-{
-    // gameWindow.clear();
-    // player.DisplaySnake(gameWindow);
-    // gameWindow.draw(playerFood.GetFoodObject());
-    // gameWindow.display();
-    // if (player.gameFinished)
-    //     DisplayEndScreen();
-    return;
-}

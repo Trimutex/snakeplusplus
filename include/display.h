@@ -11,11 +11,12 @@ public:
     sf::Vector2f gameBoundaries;
     DisplayInterface(void);
     bool IsOpen(void);
-protected:
-    bool isWindowAlive;
+    virtual void CheckContinue(void) = 0;
     virtual void DisplayGameState(std::vector< std::vector<char> >* gameBoard) = 0;
     virtual void DisplayEndScreen(void) = 0;
     virtual void StartGameWindow(void) = 0;
+protected:
+    bool isWindowAlive;
 private:
     ;
 };
@@ -24,6 +25,7 @@ class CommandLine : public DisplayInterface
 {
 public:
     CommandLine(void);
+    void CheckContinue(void);
     void DisplayGameState(std::vector< std::vector<char> >* gameBoard);
     void DisplayEndScreen(void);
     void StartGameWindow(void);
@@ -37,6 +39,7 @@ class SFML : public DisplayInterface
 {
 public:
     SFML(void);
+    void CheckContinue(void);
     void DisplayGameState(std::vector< std::vector<char> >* gameBoard);
     void DisplayEndScreen(void);
     void StartGameWindow(void);

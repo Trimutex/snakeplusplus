@@ -23,14 +23,15 @@ private:
     Snake player;
     SnakeFood playerFood;
     bool useSFML = 1;
+    bool isGameOver = 0;
     void ApplySettings(void);
     void DisplayEndScreen(void);
     void GetKeyboardInput(void);
-    bool PlayerWantsToContinue(void);
+    void PlaceNewSnakePart(sf::Vector2f location);
+    void PlayerWantsToContinue(void);
     void RegenerateFood(void);
     void ResetGameBoard(void);
     void RunGameLoop(void);
-    void RenderWindow(void);
 };
 
 #endif
