@@ -1,4 +1,5 @@
 // GameState.cpp
+#include <SFML/System/Vector2.hpp>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -14,62 +15,37 @@ namespace snakeplusplus
         return;
     }
 
-    void GameEngine::SetGameSettings(int argc, char* argv[])
-    {
-        std::string convertedString;
-        for (int i = 0; i < argc; i++)
-        {
-            convertedString = argv[i];
-            if (convertedString == "--no-sfml")
-                useSFML = false;
-        }
-    }
-
     void GameEngine::StartGame()
     {
-        ApplySettings();
-        ResetGameBoard();
-        graphics->StartGameWindow();
+        //ApplySettings();
+        PrepareGameBoard();
+        graphics.StartGameWindow();
         GameLoop();
         return;
     }
 
-    void GameEngine::ApplySettings(void)
-    {
-        if (useSFML)
-            graphics.reset(new SFML());
-        else
-            graphics.reset(new CommandLine());
-        return;
-    }
-
-    // TODO: Reimplement for DisplayInterface
-    void GameEngine::DisplayEndScreen(void)
-    {
-        graphics->DisplayEndScreen();
-        return;
-    }
-    
     void GameEngine::GameLoop(void)
     {
         sf::Vector2f newHeadPosition;
-        while (graphics->IsOpen())
+        while (graphics.IsOpen())
         {
-            // player.UpdateDirection(playerInput.GetPlayerInput());
-            // newHeadPosition = player.Move();
-            // if (playerFood.GetFoodLocation() != newHeadPosition)
-            //     player.Pop();
-            // PlaceNewSnakePart(newHeadPosition);
-            graphics->DisplayGameState(&gameBoard);
-            // if (isGameOver)
-            //     PlayerWantsToContinue();
+            UpdatePlayerSpeed();
+            PlaceNewSnakePart(MovePlayer());
+            graphics.DisplayGameState(&gameBoard);
         }
         return;
+    }
+    sf::Vector2f GameEngine::MovePlayer(void)
+    {
+        sf::Vector2f newHeadPosition;
+        newHeadPosition.x = player.headLocation.x + player.speed.x;
+        newHeadPosition.y = player.headLocation.y + player.speed.y;
+        return newHeadPosition;
     }
 
     sf::Vector2f GameEngine::GetGameBoundaries(void)
     {
-        return graphics->gameBoundaries;
+        return graphics.gameBoundaries;
     }
 
     void GameEngine::PlaceNewSnakePart(sf::Vector2f location)
@@ -80,8 +56,8 @@ namespace snakeplusplus
             locationState = gameBoard.at(location.y).at(location.x);
             if (locationState == 'O')
                 isGameOver = true; // Game should end (Snake touching snake)
-            if (locationState == ' ')
-                player.Pop(); // Snake shouldn't extend
+            if (playerFood.location != location)
+                player.Pop();
             gameBoard.at(location.y).at(location.x) = 'O'; 
         } catch (const std::out_of_range& error) {
             isGameOver = true; // Snake ran into edge
@@ -90,40 +66,57 @@ namespace snakeplusplus
         return;
     }
 
-    void GameEngine::PlayerWantsToContinue(void)
-    {
-       graphics->CheckContinue();
-       return;
-    }
-
     // Generates new food until not colliding with player
     void GameEngine::RegenerateFood(void)
     {
-        sf::Vector2f newLocation = playerFood.GetFoodLocation();
+        sf::Vector2f newLocation = playerFood.location;
         bool isUpdated = false;
         // Keep making new food until generating a valid spot
         while (gameBoard.at(newLocation.y).at(newLocation.x) == 'O')
         {
             isUpdated = true;
             playerFood.GenerateNewFood(GetGameBoundaries());
-            newLocation = playerFood.GetFoodLocation();
+            newLocation = playerFood.location;
         }
         if (isUpdated)
             gameBoard.at(newLocation.y).at(newLocation.x) = 'X';
         return;
     }
 
-    void GameEngine::ResetGameBoard(void)
+    void GameEngine::PrepareGameBoard(void)
     {
         gameBoard.clear();
         sf::Vector2f boardDimensions = GetGameBoundaries();
         std::vector<char> tempBoard;
         tempBoard.resize(boardDimensions.x, ' ');
         gameBoard.resize(boardDimensions.y, tempBoard);
-        PlaceNewSnakePart(player.Reset());
-        // playerFood.GenerateNewFood(boardDimensions);
-        // sf::Vector2f foodStartLocation = playerFood.GetFoodLocation();
-        // gameBoard.at(foodStartLocation.y).at(foodStartLocation.x) = 'X';
-        // return;
+        sf::Vector2f playerLocation(4,5);
+        char* headLocation = &gameBoard.at(playerLocation.y).at(playerLocation.x);
+        *headLocation = 'O';
+        player.body.push(std::shared_ptr<char>(headLocation));
+        sf::Vector2f foodLocation(2,2); 
+        gameBoard.at(foodLocation.y).at(foodLocation.x) = 'X';
+        return;
+    }
+
+    void GameEngine::UpdatePlayerSpeed(void)
+    {
+        PlayerDirection input = controls.GetPlayerInput();
+        switch (input) {
+            case kUp:
+                player.speed.x = 0;
+                player.speed.y = 1;
+            case kLeft:
+                player.speed.x = -1;
+                player.speed.y = 0;
+            case kRight:
+                player.speed.x = 1;
+                player.speed.y = 0;
+            case kDown:
+                player.speed.x = 0;
+                player.speed.y = -1;
+            default:
+                break;
+        }
     }
 }

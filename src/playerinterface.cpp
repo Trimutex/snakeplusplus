@@ -3,12 +3,12 @@
 
 namespace snakeplusplus 
 {
-    Input::Input(void)
+    PlayerInput::PlayerInput(void)
     {
         lastPlayerInput = kNone;
     }
 
-    PlayerDirection Input::GetPlayerInput(void)
+    PlayerDirection PlayerInput::GetPlayerInput(void)
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
             lastPlayerInput = kLeft;
@@ -21,69 +21,12 @@ namespace snakeplusplus
         return lastPlayerInput;
     }
 
-    DisplayInterface::DisplayInterface(void)
-    {
-        return;
-    }
-
-    bool DisplayInterface::IsOpen(void)
+    bool PlayerOutput::IsOpen(void)
     {
         return isWindowAlive;
     }
 
-    CommandLine::CommandLine(void)
-    {
-        gameBoundaries.x = 1025 / kGridSize;
-        gameBoundaries.y = 725 / kGridSize;
-        return;
-    }
-
-    void CommandLine::CheckContinue(void)
-    {
-        int placeholder;
-        std::cout << "Press enter to play again.";
-        std::cin >> placeholder;
-        return;
-    }
-
-    void CommandLine::DisplayEndScreen(void)
-    {
-        std::cout << "Game Over!" << std::endl;
-        return;
-    }
-
-    void CommandLine::DisplayGameState(std::vector< std::vector<char> >* gameBoard)
-    {
-        Clear();
-        for (int i = 0; i < gameBoundaries.y; i++)
-        {
-            for (int j = 0; j < gameBoundaries.x; j++)
-                std::cout << gameBoard->at(i).at(j);
-            std::cout << std::endl;
-        }
-        sf::sleep(delay);
-    }
-
-    void CommandLine::StartGameWindow(void)
-    {
-        isWindowAlive = true;
-        return;
-    }
-
-    void CommandLine::Clear(void)
-    {
-    #if defined _WIN32
-        system("cls");
-        //clrscr(); // including header file : conio.h
-    #elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
-        system("clear");
-        //std::cout<< u8"\033[2J\033[1;1H"; //Using ANSI Escape Sequences 
-    #elif defined (__APPLE__)
-        system("clear");
-    #endif
-    }
-
-    SFML::SFML(void)
+    PlayerOutput::PlayerOutput(void)
     {
         float kWidth = 1025 / kGridSize;
         float kHeight = 725 / kGridSize;
@@ -93,7 +36,7 @@ namespace snakeplusplus
         return;
     }
 
-    void SFML::CheckContinue(void)
+    void PlayerOutput::CheckContinue(void)
     {
         sf::Event event;
         while (true)
@@ -111,7 +54,7 @@ namespace snakeplusplus
         }
     }
 
-    void SFML::DisplayEndScreen(void)
+    void PlayerOutput::DisplayEndScreen(void)
     {
         gameWindow.clear();
         sf::Vector2f textPosition(gameBoundaries);
@@ -131,7 +74,7 @@ namespace snakeplusplus
         return;
     }
 
-    void SFML::DisplayGameState(std::vector< std::vector<char> >* gameBoard)
+    void PlayerOutput::DisplayGameState(std::vector< std::vector<char> >* gameBoard)
     {
         CheckWindowEvents();
         sf::Vector2i location(0,0);
@@ -154,24 +97,14 @@ namespace snakeplusplus
         return;
     }
 
-    void SFML::StartGameWindow(void)
+    void PlayerOutput::StartGameWindow(void)
     {
         gameWindow.create(gameVideoSettings, "SnakePlusPlus");
         isWindowAlive = true;
         return;
     }
 
-    void SFML::UpdateResolution(sf::Vector2i newResolution)
-    {
-        gameVideoSettings.width = newResolution.x;
-        gameVideoSettings.height = newResolution.y;
-        gameBoundaries.x = gameVideoSettings.width / kGridSize;
-        gameBoundaries.y = gameVideoSettings.height / kGridSize;
-        gameWindow.create(gameVideoSettings, "SnakePlusPlus");
-        return;
-    }
-
-    void SFML::CheckWindowEvents(void)
+    void PlayerOutput::CheckWindowEvents(void)
     {
         sf::Event event;
         while (gameWindow.pollEvent(event))
@@ -182,7 +115,7 @@ namespace snakeplusplus
         }
     }
 
-    void SFML::DrawEmpty(sf::Vector2f location)
+    void PlayerOutput::DrawEmpty(sf::Vector2f location)
     {
         location *= static_cast<float>(kGridSize);
         drawObject.setPosition(location);
@@ -191,7 +124,7 @@ namespace snakeplusplus
         return;
     }
 
-    void SFML::DrawFood(sf::Vector2f location)
+    void PlayerOutput::DrawFood(sf::Vector2f location)
     {
         location *= static_cast<float>(kGridSize);
         drawObject.setPosition(location);
@@ -200,7 +133,7 @@ namespace snakeplusplus
         return;
     }
 
-    void SFML::DrawSnake(sf::Vector2f location)
+    void PlayerOutput::DrawSnake(sf::Vector2f location)
     {
         location *= static_cast<float>(kGridSize);
         drawObject.setPosition(location);
