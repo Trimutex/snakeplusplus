@@ -1,8 +1,8 @@
-#include "gamestate.h"
+#include "gamestate.hpp"
 
 int main(int argc, char *argv[])
 {
-    GameState game;
+    snakeplusplus::GameEngine game;
     game.SetGameSettings(argc, argv);
     game.StartGame();
 }

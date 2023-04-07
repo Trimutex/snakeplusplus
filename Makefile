@@ -8,10 +8,9 @@ fresh: dirs compile link
 
 compile:
 	g++ $(INC) $(STD) -c -o build/main.o src/main.cpp
-	g++ $(INC) $(STD) -c -o build/display.o src/display.cpp
+	g++ $(INC) $(STD) -c -o build/playerinterface.o src/playerinterface.cpp
 	g++ $(INC) $(STD) -c -o build/gamestate.o src/gamestate.cpp
 	g++ $(INC) $(STD) -c -o build/snake.o src/snake.cpp
-	g++ $(INC) $(STD) -c -o build/snakefood.o src/snakefood.cpp
 
 dirs:
 	mkdir bin build
