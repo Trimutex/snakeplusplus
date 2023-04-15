@@ -1,5 +1,5 @@
 // GameState.cpp
-#include <SFML/System/Vector2.hpp>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -31,7 +31,8 @@ namespace snakeplusplus
         {
             UpdatePlayerSpeed();
             PlaceNewSnakePart(MovePlayer());
-            graphics.DisplayGameState(&gameBoard);
+            RegenerateFood();
+            graphics.DisplayGameState(gameBoard);
         }
         return;
     }
@@ -50,20 +51,21 @@ namespace snakeplusplus
 
     void GameEngine::PlaceNewSnakePart(sf::Vector2f location)
     {
-        char locationState;
         try 
         {
-            locationState = gameBoard.at(location.y).at(location.x);
-            if (locationState == 'O')
+            char* locationState;
+            locationState = &gameBoard.at(location.y).at(location.x);
+            if (*locationState == 'O' && player.body.size() > 1)
                 isGameOver = true; // Game should end (Snake touching snake)
+            *locationState = 'O';
+            player.body.push(locationState);
+            player.headLocation = location;
             if (playerFood.location != location)
                 player.Pop();
-            gameBoard.at(location.y).at(location.x) = 'O'; 
         } catch (const std::out_of_range& error) {
             isGameOver = true; // Snake ran into edge
-            return;
+            exit(0);
         }
-        return;
     }
 
     // Generates new food until not colliding with player
@@ -87,15 +89,16 @@ namespace snakeplusplus
     {
         gameBoard.clear();
         sf::Vector2f boardDimensions = GetGameBoundaries();
-        std::vector<char> tempBoard;
-        tempBoard.resize(boardDimensions.x, ' ');
-        gameBoard.resize(boardDimensions.y, tempBoard);
-        sf::Vector2f playerLocation(4,5);
-        char* headLocation = &gameBoard.at(playerLocation.y).at(playerLocation.x);
-        *headLocation = 'O';
-        player.body.push(std::shared_ptr<char>(headLocation));
-        sf::Vector2f foodLocation(2,2); 
-        gameBoard.at(foodLocation.y).at(foodLocation.x) = 'X';
+        gameBoard.resize(boardDimensions.y, std::vector<char> (boardDimensions.x, ' '));
+        player.headLocation.x = 4;
+        player.headLocation.y = 5;
+        char* locationState = &gameBoard.at(player.headLocation.y).at(player.headLocation.x);
+        player.body.push(locationState);
+        *player.body.front() = 'O';
+        playerFood.location.x = 2;
+        playerFood.location.y = 2;
+        playerFood.food = &gameBoard.at(2).at(2);
+        *playerFood.food = 'X';
         return;
     }
 
@@ -105,16 +108,20 @@ namespace snakeplusplus
         switch (input) {
             case kUp:
                 player.speed.x = 0;
-                player.speed.y = 1;
+                player.speed.y = -1;
+                break;
             case kLeft:
                 player.speed.x = -1;
                 player.speed.y = 0;
+                break;
             case kRight:
                 player.speed.x = 1;
                 player.speed.y = 0;
+                break;
             case kDown:
                 player.speed.x = 0;
-                player.speed.y = -1;
+                player.speed.y = 1;
+                break;
             default:
                 break;
         }

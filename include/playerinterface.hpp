@@ -13,8 +13,6 @@ namespace snakeplusplus
     public:
         PlayerInput(void);
         PlayerDirection GetPlayerInput(void);
-    protected:
-        ;
     private:
         PlayerDirection lastPlayerInput;
     };
@@ -26,10 +24,8 @@ namespace snakeplusplus
         PlayerOutput(void);
         bool IsOpen(void);
         void CheckContinue(void);
-        void DisplayGameState(std::vector< std::vector<char> >* gameBoard);
+        void DisplayGameState(std::vector< std::vector<char> >& gameBoard);
         void StartGameWindow(void);
-    protected:
-        ;
     private:
         void CheckWindowEvents(void);
         void DisplayEndScreen(void);
@@ -40,7 +36,7 @@ namespace snakeplusplus
         sf::VideoMode gameVideoSettings;
         sf::RectangleShape drawObject;
         bool isWindowAlive;
-        sf::Time delay = sf::milliseconds(120);
+        sf::Time delay = sf::milliseconds(60);
     };
 }
 

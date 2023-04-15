@@ -15,8 +15,6 @@ namespace snakeplusplus
         GameEngine();
         void StartGame(void);
         sf::Vector2f GetGameBoundaries(void);
-    protected:
-        ;
     private:
         std::vector< std::vector<char> > gameBoard;
         PlayerInput controls;

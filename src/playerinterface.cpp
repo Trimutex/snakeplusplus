@@ -1,4 +1,5 @@
 #include "playerinterface.hpp"
+#include <SFML/System/Vector2.hpp>
 #include <iostream>
 
 namespace snakeplusplus 
@@ -23,15 +24,17 @@ namespace snakeplusplus
 
     bool PlayerOutput::IsOpen(void)
     {
-        return isWindowAlive;
+        return gameWindow.isOpen();
     }
 
     PlayerOutput::PlayerOutput(void)
     {
-        float kWidth = 1025 / kGridSize;
-        float kHeight = 725 / kGridSize;
-        gameBoundaries = sf::Vector2f(kWidth, kHeight); 
-        gameVideoSettings = sf::VideoMode(1025, 725);
+        float kWidth = 1025;
+        float kHeight = 725;
+        float kBoardWidth = kWidth / kGridSize;
+        float kBoardHeight = kHeight / kGridSize;
+        gameBoundaries = sf::Vector2f(kBoardWidth, kBoardHeight); 
+        gameVideoSettings = sf::VideoMode(kWidth, kHeight);
         drawObject.setSize(sf::Vector2f(kGridSize, kGridSize));
         return;
     }
@@ -74,22 +77,30 @@ namespace snakeplusplus
         return;
     }
 
-    void PlayerOutput::DisplayGameState(std::vector< std::vector<char> >* gameBoard)
+    void PlayerOutput::DisplayGameState(std::vector< std::vector<char> >& gameBoard)
     {
         CheckWindowEvents();
-        sf::Vector2i location(0,0);
-        char letterOnBoard;
-        for (; location.y < gameBoundaries.y; location.y++)
+        sf::Vector2f location;
+        char* letterOnBoard;
+        for (float y = 0; y < gameBoundaries.y; y++)
         {
-            for (; location.x < gameBoundaries.x; location.x++)
+            for (float x = 0; x < gameBoundaries.x; x++)
             {
-                letterOnBoard = gameBoard->at(location.y).at(location.y);
-                if (letterOnBoard == 'o')
-                    DrawSnake(static_cast<sf::Vector2f>(location));
-                else if (letterOnBoard == 'x')
-                    DrawFood(static_cast<sf::Vector2f>(location));
-                else
-                    DrawEmpty(static_cast<sf::Vector2f>(location));
+                location.x = x;
+                location.y = y;
+                letterOnBoard = &gameBoard.at(location.y).at(location.x);
+                switch (*letterOnBoard)
+                {
+                    case 'O':
+                        DrawSnake(location);
+                        break;
+                    case 'X':
+                        DrawFood(location);
+                        break;
+                    default:
+                        DrawEmpty(location);
+                        break;
+                }
             }
         }
         gameWindow.display();

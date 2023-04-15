@@ -13,15 +13,10 @@ namespace snakeplusplus
     struct Snake
     {
     public:
-        Snake(void);
         sf::Vector2f headLocation;
         sf::Vector2f speed;
-        std::queue< std::shared_ptr<char> > body;
+        std::queue<char*> body;
         void Pop(void);
-    protected:
-        ;
-    private:
-        ;
     };
 
     struct Food
@@ -29,10 +24,8 @@ namespace snakeplusplus
     public:
         Food(void);
         sf::Vector2f location;
-        std::shared_ptr<char> food;
+        char* food;
         void GenerateNewFood(sf::Vector2f boundaries);
-    protected:
-        ;
     private:
         std::default_random_engine generator;
         int GenerateRandomNumber(int generationLimit);

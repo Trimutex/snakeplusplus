@@ -1,4 +1,5 @@
 // Snake.cpp
+#include <algorithm>
 #include <memory>
 #include <queue>
 #include <random>
@@ -7,21 +8,15 @@
 
 namespace snakeplusplus
 {
-    // General constructor for snake class
-    Snake::Snake(void)
-    {
-        return;
-    }
-    
     void Snake::Pop(void)
     {
-        *(body.front().get()) = ' ';
+        *(body.front()) = ' ';
         body.pop();
     }
 
-    Food::Food()
+    Food::Food(void)
     {
-        return;
+        generator.seed(std::random_device{}());
     }
 
     // Returns a new food object for the snakeFood
