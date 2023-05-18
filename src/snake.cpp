@@ -30,7 +30,7 @@ namespace snakeplusplus
     int Food::GenerateRandomNumber(int generationLimit)
     {
         int generatedNumber;
-        std::uniform_int_distribution<> distribution(0, generationLimit);
+        std::uniform_int_distribution<> distribution(0, generationLimit - 1);
         generatedNumber = distribution(generator);
         return generatedNumber;
     }

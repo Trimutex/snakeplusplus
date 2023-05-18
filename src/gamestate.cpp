@@ -26,9 +26,13 @@ namespace snakeplusplus
 
     void GameEngine::GameLoop(void)
     {
-        sf::Vector2f newHeadPosition;
         while (graphics.IsOpen())
         {
+            if (isGameOver)
+            {
+                graphics.CheckContinue();
+                isGameOver = 0;
+            }
             UpdatePlayerSpeed();
             PlaceNewSnakePart(MovePlayer());
             RegenerateFood();
@@ -36,6 +40,7 @@ namespace snakeplusplus
         }
         return;
     }
+
     sf::Vector2f GameEngine::MovePlayer(void)
     {
         sf::Vector2f newHeadPosition;

@@ -1,5 +1,6 @@
 #include "playerinterface.hpp"
 #include <SFML/System/Vector2.hpp>
+#include <cstdlib>
 #include <iostream>
 
 namespace snakeplusplus 
@@ -42,17 +43,17 @@ namespace snakeplusplus
     void PlayerOutput::CheckContinue(void)
     {
         sf::Event event;
+        DisplayEndScreen();
         while (true)
         {
-            while (gameWindow.pollEvent(event))
+            gameWindow.pollEvent(event);
+            if ((event.type == sf::Event::Closed) || 
+                (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
             {
-                if ((event.type == sf::Event::Closed) || 
-                    (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
-                    gameWindow.close();
+                gameWindow.close();
                 return;
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-                return;
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) { return; }
             sf::sleep(delay);
         }
     }
@@ -63,17 +64,12 @@ namespace snakeplusplus
         sf::Vector2f textPosition(gameBoundaries);
         textPosition.x = textPosition.x / 2;
         textPosition.y = textPosition.y / 2;
-        sf::Text gameOverText;
-        gameOverText.setString("Game Over");
-        gameOverText.setCharacterSize(30);
+        sf::Font font;
+        font.loadFromFile("Arial.ttf");
+        sf::Text gameOverText("Game Over", font);
         gameOverText.setPosition(textPosition);
         gameWindow.draw(gameOverText);
         gameWindow.display();
-        // if (!PlayerWantsToContinue())
-        //     return;
-        // player = Snake();
-        // playerFood.GenerateNewFood(GetGameBoundaries());
-        // gameWindow.clear();
         return;
     }
 
