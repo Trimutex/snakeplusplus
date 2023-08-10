@@ -66,7 +66,7 @@ namespace snakeplusplus
         textPosition.y = textPosition.y / 2;
         sf::Font font;
         font.loadFromFile("Arial.ttf");
-        sf::Text gameOverText("Game Over", font);
+        sf::Text gameOverText("Game Over\nPress 'Enter' to play again", font);
         gameOverText.setPosition(textPosition);
         gameWindow.draw(gameOverText);
         gameWindow.display();

@@ -14,6 +14,11 @@ namespace snakeplusplus
         body.pop();
     }
 
+    void Snake::Reset(void)
+    {
+        while (!body.empty()) Pop();
+    }
+
     Food::Food(void)
     {
         generator.seed(std::random_device{}());

@@ -17,6 +17,7 @@ namespace snakeplusplus
         sf::Vector2f speed;
         std::queue<char*> body;
         void Pop(void);
+        void Reset(void);
     };
 
     struct Food

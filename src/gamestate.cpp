@@ -31,6 +31,8 @@ namespace snakeplusplus
             if (isGameOver)
             {
                 graphics.CheckContinue();
+                player.Reset();
+                PrepareGameBoard();
                 isGameOver = 0;
             }
             UpdatePlayerSpeed();
@@ -69,7 +71,6 @@ namespace snakeplusplus
                 player.Pop();
         } catch (const std::out_of_range& error) {
             isGameOver = true; // Snake ran into edge
-            exit(0);
         }
     }
 
