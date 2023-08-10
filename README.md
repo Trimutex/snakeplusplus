@@ -26,4 +26,3 @@ The program should now be compiled at ./build/bin/snakeplusplus
 Simply run the program using:
 
     build/bin/snakeplusplus 
-
