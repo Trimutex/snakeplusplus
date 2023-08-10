@@ -1,7 +1,7 @@
-#include "GameState.h"
+#include "gamestate.hpp"
 
-int main()
+int main(void)
 {
-    GameState game;
+    snakeplusplus::GameEngine game;
     game.StartGame();
 }
