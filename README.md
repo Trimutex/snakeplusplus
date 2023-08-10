@@ -14,7 +14,6 @@ Prerequisites
 Clone the repository and compile it using:
 
     git clone https://github.com/TriantaTV/snakeplusplus.git
-    make
 
 In order to compile the project, simply run these two commands:
 
