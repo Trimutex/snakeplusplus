@@ -17,7 +17,6 @@ namespace snakeplusplus
         sf::Vector2f GetGameBoundaries(void);
     private:
         std::vector< std::vector<char> > gameBoard;
-        PlayerInput controls;
         PlayerOutput graphics;
         Snake player;
         Food playerFood;

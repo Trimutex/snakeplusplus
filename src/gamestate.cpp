@@ -110,8 +110,7 @@ namespace snakeplusplus
 
     void GameEngine::UpdatePlayerSpeed(void)
     {
-        PlayerDirection input = controls.GetPlayerInput();
-        switch (input) {
+        switch (GetPlayerInput()) {
             case kUp:
                 player.speed.x = 0;
                 player.speed.y = -1;

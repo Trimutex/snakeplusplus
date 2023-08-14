@@ -5,22 +5,17 @@
 
 namespace snakeplusplus 
 {
-    PlayerInput::PlayerInput(void)
-    {
-        lastPlayerInput = kNone;
-    }
-
-    PlayerDirection PlayerInput::GetPlayerInput(void)
+    PlayerDirection GetPlayerInput(void)
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            lastPlayerInput = kLeft;
+            return kLeft;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            lastPlayerInput = kUp;
+            return kUp;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            lastPlayerInput = kDown;
+            return kDown;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            lastPlayerInput = kRight;
-        return lastPlayerInput;
+            return kRight;
+        return kNone;
     }
 
     bool PlayerOutput::IsOpen(void)

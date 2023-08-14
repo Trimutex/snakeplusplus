@@ -17,6 +17,8 @@ namespace snakeplusplus
     void Snake::Reset(void)
     {
         while (!body.empty()) Pop();
+        speed.x = 0;
+        speed.y = 0;
     }
 
     Food::Food(void)
