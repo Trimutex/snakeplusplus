@@ -26,6 +26,7 @@ namespace snakeplusplus
         player.Reset();
         PrepareGameBoard();
         isGameOver = 0;
+        return;
     }
 
     void GameEngine::Loop(void)
@@ -60,7 +61,7 @@ namespace snakeplusplus
         {
             char* locationState;
             locationState = &gameBoard.at(location.y).at(location.x);
-            if (*locationState == 'O' && player.body.size() > 1)
+            if (*locationState == 'O' && (player.body.size() > 1))
                 isGameOver = true; // Game should end (Snake touching snake)
             *locationState = 'O';
             player.body.push(locationState);
@@ -70,6 +71,7 @@ namespace snakeplusplus
         } catch (const std::out_of_range& error) {
             isGameOver = true; // Snake ran into edge
         }
+        return;
     }
 
     // Generates new food until not colliding with player
@@ -77,7 +79,6 @@ namespace snakeplusplus
     {
         sf::Vector2f newLocation = playerFood.location;
         bool isUpdated = false;
-        // Keep making new food until generating a valid spot
         while (gameBoard.at(newLocation.y).at(newLocation.x) == 'O')
         {
             isUpdated = true;
@@ -128,5 +129,6 @@ namespace snakeplusplus
             default:
                 break;
         }
+        return;
     }
 }

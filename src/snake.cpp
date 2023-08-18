@@ -10,6 +10,7 @@ namespace snakeplusplus
     {
         *(body.front()) = ' ';
         body.pop();
+        return;
     }
 
     void Snake::Reset(void)
@@ -17,11 +18,13 @@ namespace snakeplusplus
         while (!body.empty()) Pop();
         speed.x = 0;
         speed.y = 0;
+        return;
     }
 
     Food::Food(void)
     {
         generator.seed(std::random_device{}());
+        return;
     }
 
     // Returns a new food object for the snakeFood
@@ -29,6 +32,7 @@ namespace snakeplusplus
     {
         location.x = GenerateRandomNumber(boundaries.x);
         location.y = GenerateRandomNumber(boundaries.y);
+        return;
     }
 
     // Returns a newly generated number

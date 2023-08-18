@@ -45,8 +45,8 @@ namespace snakeplusplus
         while (true)
         {
             gameWindow.pollEvent(event);
-            if ((event.type == sf::Event::Closed) || 
-                (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
+            if ((event.type == sf::Event::Closed)
+                    || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
             {
                 gameWindow.close();
                 return;
@@ -114,8 +114,8 @@ namespace snakeplusplus
         sf::Event event;
         while (gameWindow.pollEvent(event))
         {
-            if ((event.type == sf::Event::Closed) || 
-                (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
+            if ((event.type == sf::Event::Closed)
+                    || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
                 gameWindow.close();
         }
     }
