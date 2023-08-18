@@ -12,26 +12,27 @@ namespace snakeplusplus
         return;
     }
 
-    void GameEngine::StartGame()
+    void GameEngine::Start()
     {
-        //ApplySettings();
         PrepareGameBoard();
         graphics.StartGameWindow();
-        GameLoop();
+        Loop();
         return;
     }
 
-    void GameEngine::GameLoop(void)
+    void GameEngine::Reset()
+    {
+        graphics.CheckContinue();
+        player.Reset();
+        PrepareGameBoard();
+        isGameOver = 0;
+    }
+
+    void GameEngine::Loop(void)
     {
         while (graphics.IsOpen())
         {
-            if (isGameOver)
-            {
-                graphics.CheckContinue();
-                player.Reset();
-                PrepareGameBoard();
-                isGameOver = 0;
-            }
+            if (isGameOver) {Reset();}
             UpdatePlayerSpeed();
             PlaceNewSnakePart(MovePlayer());
             RegenerateFood();

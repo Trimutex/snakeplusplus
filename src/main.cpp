@@ -3,5 +3,5 @@
 int main(void)
 {
     snakeplusplus::GameEngine game;
-    game.StartGame();
+    game.Start();
 }

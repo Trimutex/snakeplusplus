@@ -1,17 +1,22 @@
 #include "playerinterface.hpp"
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Keyboard.hpp>
 
 namespace snakeplusplus 
 {
     PlayerDirection GetPlayerInput(void)
     {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
+                || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
             return kLeft;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
+                || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
             return kUp;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
+                || sf::Keyboard::isKeyPressed(sf::Keyboard::S))
             return kDown;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
+                || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
             return kRight;
         return kNone;
     }
