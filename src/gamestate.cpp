@@ -100,10 +100,9 @@ namespace snakeplusplus
         char* locationState = &gameBoard.at(player.headLocation.y).at(player.headLocation.x);
         player.body.push(locationState);
         *player.body.front() = 'O';
-        playerFood.location.x = 2;
-        playerFood.location.y = 2;
-        playerFood.food = &gameBoard.at(2).at(2);
-        *playerFood.food = 'X';
+        playerFood.GenerateNewFood(GetGameBoundaries());
+        sf::Vector2f newLocation = playerFood.location;
+        gameBoard.at(newLocation.y).at(newLocation.x) = 'X';
         return;
     }
 
