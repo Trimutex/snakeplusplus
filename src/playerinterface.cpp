@@ -1,7 +1,5 @@
 #include "playerinterface.hpp"
 #include <SFML/System/Vector2.hpp>
-#include <cstdlib>
-#include <iostream>
 
 namespace snakeplusplus 
 {

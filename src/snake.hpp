@@ -3,10 +3,8 @@
 #define SNAKE_HPP
 
 #include <SFML/System/Vector2.hpp>
-#include <memory>
 #include <queue>
 #include <random>
-#include <SFML/Graphics.hpp>
 
 namespace snakeplusplus
 {

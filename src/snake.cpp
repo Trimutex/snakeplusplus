@@ -1,6 +1,4 @@
 // Snake.cpp
-#include <algorithm>
-#include <memory>
 #include <queue>
 #include <random>
 #include <SFML/Graphics.hpp>

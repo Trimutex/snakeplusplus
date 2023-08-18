@@ -2,7 +2,6 @@
 #ifndef GAMESTATE_HPP
 #define GAMESTATE_HPP
 
-#include <memory>
 #include <SFML/Graphics.hpp>
 #include "snake.hpp"
 #include "playerinterface.hpp"
