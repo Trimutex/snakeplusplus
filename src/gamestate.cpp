@@ -96,14 +96,20 @@ namespace snakeplusplus
         gameBoard.clear();
         sf::Vector2f boardDimensions = GetGameBoundaries();
         gameBoard.resize(boardDimensions.y, std::vector<char> (boardDimensions.x, ' '));
-        player.headLocation.x = 4;
-        player.headLocation.y = 5;
-        char* locationState = &gameBoard.at(player.headLocation.y).at(player.headLocation.x);
-        player.body.push(locationState);
-        *player.body.front() = 'O';
-        playerFood.GenerateNewFood(GetGameBoundaries());
-        sf::Vector2f newLocation = playerFood.location;
-        gameBoard.at(newLocation.y).at(newLocation.x) = 'X';
+        // Snake setup
+        {
+            player.headLocation.x = GenerateRandomNumber(boardDimensions.x);
+            player.headLocation.y = GenerateRandomNumber(boardDimensions.y);
+            char* locationState = &gameBoard.at(player.headLocation.y).at(player.headLocation.x);
+            player.body.push(locationState);
+            *locationState = 'O';
+        }
+        // Food setup
+        {
+            playerFood.GenerateNewFood(boardDimensions);
+            sf::Vector2f newLocation = playerFood.location;
+            gameBoard.at(newLocation.y).at(newLocation.x) = 'X';
+        }
         return;
     }
 

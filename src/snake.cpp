@@ -6,7 +6,6 @@
 
 namespace snakeplusplus
 {
-
     void Snake::Pop(void)
     {
         *(body.front()) = ' ';
