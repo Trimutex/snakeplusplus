@@ -1,6 +1,7 @@
 // GameState.cpp
 #include <stdexcept>
 #include <SFML/Graphics.hpp>
+#include "botinterface.hpp"
 #include "common.hpp"
 #include "playerinterface.hpp"
 #include "gamestate.hpp"
@@ -34,7 +35,7 @@ namespace snakeplusplus
     {
         while (graphics.IsOpen())
         {
-            if (isGameOver) {Reset();}
+            if (isGameOver) { Reset(); }
             UpdatePlayerSpeed();
             PlaceNewSnakePart(MovePlayer());
             RegenerateFood();
@@ -113,7 +114,10 @@ namespace snakeplusplus
 
     void GameEngine::UpdatePlayerSpeed(void)
     {
-        switch (GetPlayerInput()) {
+        PlayerDirection controller;
+        if (isBotControlled) { controller = GetBotInput(player.headLocation, playerFood.location); }
+        else { controller = GetPlayerInput(); }
+        switch (controller) { 
             case kUp:
                 if (player.speed.y == 1) { break; }
                 player.speed.x = 0;

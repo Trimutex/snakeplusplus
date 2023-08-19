@@ -29,7 +29,7 @@ namespace snakeplusplus
         sf::VideoMode gameVideoSettings;
         sf::RectangleShape drawObject;
         bool isWindowAlive;
-        sf::Time delay = sf::milliseconds(60);
+        sf::Time delay = sf::milliseconds(20);
     };
 }
 
