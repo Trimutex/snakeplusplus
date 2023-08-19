@@ -1,7 +1,6 @@
 // GameState.cpp
 #include <stdexcept>
 #include <SFML/Graphics.hpp>
-#include <tuple>
 #include "common.hpp"
 #include "playerinterface.hpp"
 #include "gamestate.hpp"
@@ -99,19 +98,16 @@ namespace snakeplusplus
         sf::Vector2f boardDimensions = GetGameBoundaries();
         gameBoard.resize(boardDimensions.y, std::vector<char> (boardDimensions.x, ' '));
         // Snake setup
+        player.headLocation.x = GenerateRandomNumber(boardDimensions.x);
+        player.headLocation.y = GenerateRandomNumber(boardDimensions.y);
         {
-            player.headLocation.x = GenerateRandomNumber(boardDimensions.x);
-            player.headLocation.y = GenerateRandomNumber(boardDimensions.y);
             char* locationState = &gameBoard.at(player.headLocation.y).at(player.headLocation.x);
             player.body.push(locationState);
             *locationState = 'O';
         }
         // Food setup
-        {
-            playerFood.GenerateNewFood(boardDimensions);
-            sf::Vector2f newLocation = playerFood.location;
-            gameBoard.at(newLocation.y).at(newLocation.x) = 'X';
-        }
+        playerFood.GenerateNewFood(boardDimensions);
+        gameBoard.at(playerFood.location.y).at(playerFood.location.x) = 'X';
         return;
     }
 
@@ -119,18 +115,22 @@ namespace snakeplusplus
     {
         switch (GetPlayerInput()) {
             case kUp:
+                if (player.speed.y == 1) { break; }
                 player.speed.x = 0;
                 player.speed.y = -1;
                 break;
             case kLeft:
+                if (player.speed.x == 1) { break; }
                 player.speed.x = -1;
                 player.speed.y = 0;
                 break;
             case kRight:
+                if (player.speed.x == -1) { break; }
                 player.speed.x = 1;
                 player.speed.y = 0;
                 break;
             case kDown:
+                if (player.speed.y == -1) { break; }
                 player.speed.x = 0;
                 player.speed.y = 1;
                 break;
