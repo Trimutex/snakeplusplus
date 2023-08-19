@@ -1,26 +1,24 @@
 #include "playerinterface.hpp"
 #include <SFML/System/Vector2.hpp>
-#include <cstdlib>
-#include <iostream>
+#include <SFML/Window/Keyboard.hpp>
 
 namespace snakeplusplus 
 {
-    PlayerInput::PlayerInput(void)
+    PlayerDirection GetPlayerInput(void)
     {
-        lastPlayerInput = kNone;
-    }
-
-    PlayerDirection PlayerInput::GetPlayerInput(void)
-    {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            lastPlayerInput = kLeft;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            lastPlayerInput = kUp;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            lastPlayerInput = kDown;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            lastPlayerInput = kRight;
-        return lastPlayerInput;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
+                || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+            return kLeft;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
+                || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+            return kUp;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
+                || sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+            return kDown;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
+                || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+            return kRight;
+        return kNone;
     }
 
     bool PlayerOutput::IsOpen(void)
@@ -47,8 +45,8 @@ namespace snakeplusplus
         while (true)
         {
             gameWindow.pollEvent(event);
-            if ((event.type == sf::Event::Closed) || 
-                (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
+            if ((event.type == sf::Event::Closed)
+                    || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
             {
                 gameWindow.close();
                 return;
@@ -66,7 +64,7 @@ namespace snakeplusplus
         textPosition.y = textPosition.y / 2;
         sf::Font font;
         font.loadFromFile("Arial.ttf");
-        sf::Text gameOverText("Game Over", font);
+        sf::Text gameOverText("Game Over\nPress 'Enter' to play again", font);
         gameOverText.setPosition(textPosition);
         gameWindow.draw(gameOverText);
         gameWindow.display();
@@ -76,25 +74,22 @@ namespace snakeplusplus
     void PlayerOutput::DisplayGameState(std::vector< std::vector<char> >& gameBoard)
     {
         CheckWindowEvents();
-        sf::Vector2f location;
         char* letterOnBoard;
         for (float y = 0; y < gameBoundaries.y; y++)
         {
             for (float x = 0; x < gameBoundaries.x; x++)
             {
-                location.x = x;
-                location.y = y;
-                letterOnBoard = &gameBoard.at(location.y).at(location.x);
+                letterOnBoard = &gameBoard.at(y).at(x);
                 switch (*letterOnBoard)
                 {
                     case 'O':
-                        DrawSnake(location);
+                        DrawSnake(sf::Vector2f(x, y));
                         break;
                     case 'X':
-                        DrawFood(location);
+                        DrawFood(sf::Vector2f(x,y));
                         break;
                     default:
-                        DrawEmpty(location);
+                        DrawEmpty(sf::Vector2f(x,y));
                         break;
                 }
             }
@@ -116,8 +111,8 @@ namespace snakeplusplus
         sf::Event event;
         while (gameWindow.pollEvent(event))
         {
-            if ((event.type == sf::Event::Closed) || 
-                (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
+            if ((event.type == sf::Event::Closed)
+                    || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
                 gameWindow.close();
         }
     }

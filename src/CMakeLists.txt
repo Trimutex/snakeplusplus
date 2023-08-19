@@ -5,6 +5,7 @@ add_executable(snakeplusplus
     ./gamestate.cpp
     ./snake.cpp
     ./playerinterface.cpp
+    ./common.cpp
 )
 
 target_include_directories(snakeplusplus PUBLIC ${CMAKE_CURRENT_LIST_DIR})

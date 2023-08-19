@@ -1,9 +1,7 @@
 // GameState.cpp
-#include <iostream>
-#include <memory>
 #include <stdexcept>
-#include <string>
 #include <SFML/Graphics.hpp>
+#include <tuple>
 #include "common.hpp"
 #include "playerinterface.hpp"
 #include "gamestate.hpp"
@@ -12,27 +10,32 @@ namespace snakeplusplus
 {
     GameEngine::GameEngine()
     {
+        snakeplusplus::InitializeGenerator();
         return;
     }
 
-    void GameEngine::StartGame()
+    void GameEngine::Start()
     {
-        //ApplySettings();
         PrepareGameBoard();
         graphics.StartGameWindow();
-        GameLoop();
+        Loop();
         return;
     }
 
-    void GameEngine::GameLoop(void)
+    void GameEngine::Reset()
+    {
+        graphics.CheckContinue();
+        player.Reset();
+        PrepareGameBoard();
+        isGameOver = 0;
+        return;
+    }
+
+    void GameEngine::Loop(void)
     {
         while (graphics.IsOpen())
         {
-            if (isGameOver)
-            {
-                graphics.CheckContinue();
-                isGameOver = 0;
-            }
+            if (isGameOver) {Reset();}
             UpdatePlayerSpeed();
             PlaceNewSnakePart(MovePlayer());
             RegenerateFood();
@@ -56,11 +59,12 @@ namespace snakeplusplus
 
     void GameEngine::PlaceNewSnakePart(sf::Vector2f location)
     {
+        if (!player.speed.x && !player.speed.y) { return; }
         try 
         {
             char* locationState;
             locationState = &gameBoard.at(location.y).at(location.x);
-            if (*locationState == 'O' && player.body.size() > 1)
+            if (*locationState == 'O' && (player.body.size() > 1))
                 isGameOver = true; // Game should end (Snake touching snake)
             *locationState = 'O';
             player.body.push(locationState);
@@ -69,8 +73,8 @@ namespace snakeplusplus
                 player.Pop();
         } catch (const std::out_of_range& error) {
             isGameOver = true; // Snake ran into edge
-            exit(0);
         }
+        return;
     }
 
     // Generates new food until not colliding with player
@@ -78,7 +82,6 @@ namespace snakeplusplus
     {
         sf::Vector2f newLocation = playerFood.location;
         bool isUpdated = false;
-        // Keep making new food until generating a valid spot
         while (gameBoard.at(newLocation.y).at(newLocation.x) == 'O')
         {
             isUpdated = true;
@@ -95,22 +98,26 @@ namespace snakeplusplus
         gameBoard.clear();
         sf::Vector2f boardDimensions = GetGameBoundaries();
         gameBoard.resize(boardDimensions.y, std::vector<char> (boardDimensions.x, ' '));
-        player.headLocation.x = 4;
-        player.headLocation.y = 5;
-        char* locationState = &gameBoard.at(player.headLocation.y).at(player.headLocation.x);
-        player.body.push(locationState);
-        *player.body.front() = 'O';
-        playerFood.location.x = 2;
-        playerFood.location.y = 2;
-        playerFood.food = &gameBoard.at(2).at(2);
-        *playerFood.food = 'X';
+        // Snake setup
+        {
+            player.headLocation.x = GenerateRandomNumber(boardDimensions.x);
+            player.headLocation.y = GenerateRandomNumber(boardDimensions.y);
+            char* locationState = &gameBoard.at(player.headLocation.y).at(player.headLocation.x);
+            player.body.push(locationState);
+            *locationState = 'O';
+        }
+        // Food setup
+        {
+            playerFood.GenerateNewFood(boardDimensions);
+            sf::Vector2f newLocation = playerFood.location;
+            gameBoard.at(newLocation.y).at(newLocation.x) = 'X';
+        }
         return;
     }
 
     void GameEngine::UpdatePlayerSpeed(void)
     {
-        PlayerDirection input = controls.GetPlayerInput();
-        switch (input) {
+        switch (GetPlayerInput()) {
             case kUp:
                 player.speed.x = 0;
                 player.speed.y = -1;
@@ -130,5 +137,6 @@ namespace snakeplusplus
             default:
                 break;
         }
+        return;
     }
 }

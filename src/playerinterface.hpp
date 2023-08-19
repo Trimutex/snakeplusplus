@@ -8,14 +8,7 @@ const int kGridSize = 25;
 
 namespace snakeplusplus
 {
-    class PlayerInput
-    {
-    public:
-        PlayerInput(void);
-        PlayerDirection GetPlayerInput(void);
-    private:
-        PlayerDirection lastPlayerInput;
-    };
+    PlayerDirection GetPlayerInput(void);
 
     class PlayerOutput 
     {
