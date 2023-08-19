@@ -1,6 +1,7 @@
 // GameState.cpp
 #include <stdexcept>
 #include <SFML/Graphics.hpp>
+#include <tuple>
 #include "common.hpp"
 #include "playerinterface.hpp"
 #include "gamestate.hpp"
@@ -58,6 +59,7 @@ namespace snakeplusplus
 
     void GameEngine::PlaceNewSnakePart(sf::Vector2f location)
     {
+        if (!player.speed.x && !player.speed.y) { return; }
         try 
         {
             char* locationState;

@@ -74,25 +74,22 @@ namespace snakeplusplus
     void PlayerOutput::DisplayGameState(std::vector< std::vector<char> >& gameBoard)
     {
         CheckWindowEvents();
-        sf::Vector2f location;
         char* letterOnBoard;
         for (float y = 0; y < gameBoundaries.y; y++)
         {
             for (float x = 0; x < gameBoundaries.x; x++)
             {
-                location.x = x;
-                location.y = y;
-                letterOnBoard = &gameBoard.at(location.y).at(location.x);
+                letterOnBoard = &gameBoard.at(y).at(x);
                 switch (*letterOnBoard)
                 {
                     case 'O':
-                        DrawSnake(location);
+                        DrawSnake(sf::Vector2f(x, y));
                         break;
                     case 'X':
-                        DrawFood(location);
+                        DrawFood(sf::Vector2f(x,y));
                         break;
                     default:
-                        DrawEmpty(location);
+                        DrawEmpty(sf::Vector2f(x,y));
                         break;
                 }
             }
