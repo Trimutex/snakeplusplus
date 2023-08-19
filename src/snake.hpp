@@ -4,7 +4,6 @@
 
 #include <SFML/System/Vector2.hpp>
 #include <queue>
-#include <random>
 
 namespace snakeplusplus
 {
@@ -21,13 +20,9 @@ namespace snakeplusplus
     struct Food
     {
     public:
-        Food(void);
         sf::Vector2f location;
         char* food;
         void GenerateNewFood(sf::Vector2f boundaries);
-    private:
-        std::default_random_engine generator;
-        int GenerateRandomNumber(int generationLimit);
     };
 }
 

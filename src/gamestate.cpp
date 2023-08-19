@@ -9,6 +9,7 @@ namespace snakeplusplus
 {
     GameEngine::GameEngine()
     {
+        snakeplusplus::InitializeGenerator();
         return;
     }
 
