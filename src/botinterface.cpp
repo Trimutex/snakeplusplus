@@ -5,10 +5,10 @@
 namespace snakeplusplus
 {
     PlayerDirection lastKnownDirection = kNone;
-    PlayerDirection GetBotInput(sf::Vector2f snakeHeadLocation, sf::Vector2f foodLocation)
+    PlayerDirection GetBotInput(const sf::Vector2f* snakeHeadLocation, const sf::Vector2f* foodLocation)
     {
         sf::Vector2f directionDelta;
-        directionDelta = snakeHeadLocation - foodLocation;
+        directionDelta = *snakeHeadLocation - *foodLocation;
         if ((directionDelta.y > 0)
                 && (lastKnownDirection != kDown))
             { lastKnownDirection = kUp; }

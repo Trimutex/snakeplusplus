@@ -10,7 +10,7 @@ namespace snakeplusplus
 {
     GameEngine::GameEngine()
     {
-        snakeplusplus::InitializeGenerator();
+        InitializeGenerator();
         return;
     }
 
@@ -24,10 +24,10 @@ namespace snakeplusplus
 
     void GameEngine::Reset()
     {
-        graphics.CheckContinue();
+        graphics.CheckContinue(isBotControlled);
         player.Reset();
         PrepareGameBoard();
-        isGameOver = 0;
+        isGameOver = false;
         return;
     }
 
@@ -88,8 +88,7 @@ namespace snakeplusplus
             playerFood.GenerateNewFood(GetGameBoundaries());
             newLocation = playerFood.location;
         }
-        if (isUpdated)
-            gameBoard.at(newLocation.y).at(newLocation.x) = 'X';
+        if (isUpdated) { gameBoard.at(newLocation.y).at(newLocation.x) = 'X'; }
         return;
     }
 
@@ -115,28 +114,28 @@ namespace snakeplusplus
     void GameEngine::UpdatePlayerSpeed(void)
     {
         PlayerDirection controller;
-        if (isBotControlled) { controller = GetBotInput(player.headLocation, playerFood.location); }
+        if (isBotControlled) { controller = GetBotInput(&player.headLocation, &playerFood.location); }
         else { controller = GetPlayerInput(); }
         switch (controller) { 
             case kUp:
-                if (player.speed.y == 1) { break; }
+                if (player.speed.y == kUnitSpeed) { break; }
                 player.speed.x = 0;
-                player.speed.y = -1;
+                player.speed.y = -kUnitSpeed;
                 break;
             case kLeft:
-                if (player.speed.x == 1) { break; }
-                player.speed.x = -1;
+                if (player.speed.x == kUnitSpeed) { break; }
+                player.speed.x = -kUnitSpeed;
                 player.speed.y = 0;
                 break;
             case kRight:
-                if (player.speed.x == -1) { break; }
-                player.speed.x = 1;
+                if (player.speed.x == -kUnitSpeed) { break; }
+                player.speed.x = kUnitSpeed;
                 player.speed.y = 0;
                 break;
             case kDown:
-                if (player.speed.y == -1) { break; }
+                if (player.speed.y == -kUnitSpeed) { break; }
                 player.speed.x = 0;
-                player.speed.y = 1;
+                player.speed.y = kUnitSpeed;
                 break;
             default:
                 break;

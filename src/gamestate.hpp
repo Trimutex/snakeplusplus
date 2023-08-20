@@ -8,6 +8,8 @@
 
 namespace snakeplusplus
 {
+    const int kUnitSpeed = 1;
+
     class GameEngine
     {
     public:

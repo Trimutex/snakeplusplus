@@ -6,7 +6,7 @@
 
 namespace snakeplusplus
 {
-    PlayerDirection GetBotInput(sf::Vector2f snakeHeadLocation, sf::Vector2f foodLocation);
+    PlayerDirection GetBotInput(const sf::Vector2f* snakeHeadLocation, const sf::Vector2f* foodLocation);
 }
 
 #endif 
