@@ -16,7 +16,7 @@ namespace snakeplusplus
         sf::Vector2f gameBoundaries;
         PlayerOutput(void);
         bool IsOpen(void);
-        void CheckContinue(void);
+        void CheckContinue(bool isBotControlled);
         void DisplayGameState(std::vector< std::vector<char> >& gameBoard);
         void StartGameWindow(void);
     private:
@@ -28,8 +28,9 @@ namespace snakeplusplus
         sf::RenderWindow gameWindow;
         sf::VideoMode gameVideoSettings;
         sf::RectangleShape drawObject;
+        sf::Event event;
         bool isWindowAlive;
-        sf::Time delay = sf::milliseconds(60);
+        sf::Time delay = sf::milliseconds(50);
     };
 }
 

@@ -24,8 +24,8 @@ namespace snakeplusplus
     // Returns a new food object for the snakeFood
     void Food::GenerateNewFood(sf::Vector2f boundaries)
     {
-        location.x = snakeplusplus::GenerateRandomNumber(boundaries.x);
-        location.y = snakeplusplus::GenerateRandomNumber(boundaries.y);
+        location.x = GenerateRandomNumber(boundaries.x);
+        location.y = GenerateRandomNumber(boundaries.y);
         return;
     }
 }

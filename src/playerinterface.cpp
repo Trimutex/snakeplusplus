@@ -38,9 +38,9 @@ namespace snakeplusplus
         return;
     }
 
-    void PlayerOutput::CheckContinue(void)
+    void PlayerOutput::CheckContinue(bool isBotControlled)
     {
-        sf::Event event;
+        if (isBotControlled) { return; }
         DisplayEndScreen();
         while (true)
         {
@@ -108,7 +108,6 @@ namespace snakeplusplus
 
     void PlayerOutput::CheckWindowEvents(void)
     {
-        sf::Event event;
         while (gameWindow.pollEvent(event))
         {
             if ((event.type == sf::Event::Closed)

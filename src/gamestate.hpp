@@ -8,6 +8,8 @@
 
 namespace snakeplusplus
 {
+    const int kUnitSpeed = 1;
+
     class GameEngine
     {
     public:
@@ -21,6 +23,7 @@ namespace snakeplusplus
         Snake player;
         Food playerFood;
         bool isGameOver = 0;
+        bool isBotControlled = 1;
         void DisplayEndScreen(void);
         void Loop(void);
         sf::Vector2f MovePlayer(void);

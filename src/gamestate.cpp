@@ -1,7 +1,7 @@
 // GameState.cpp
 #include <stdexcept>
 #include <SFML/Graphics.hpp>
-#include <tuple>
+#include "botinterface.hpp"
 #include "common.hpp"
 #include "playerinterface.hpp"
 #include "gamestate.hpp"
@@ -10,7 +10,7 @@ namespace snakeplusplus
 {
     GameEngine::GameEngine()
     {
-        snakeplusplus::InitializeGenerator();
+        InitializeGenerator();
         return;
     }
 
@@ -24,10 +24,10 @@ namespace snakeplusplus
 
     void GameEngine::Reset()
     {
-        graphics.CheckContinue();
+        graphics.CheckContinue(isBotControlled);
         player.Reset();
         PrepareGameBoard();
-        isGameOver = 0;
+        isGameOver = false;
         return;
     }
 
@@ -35,7 +35,7 @@ namespace snakeplusplus
     {
         while (graphics.IsOpen())
         {
-            if (isGameOver) {Reset();}
+            if (isGameOver) { Reset(); }
             UpdatePlayerSpeed();
             PlaceNewSnakePart(MovePlayer());
             RegenerateFood();
@@ -88,8 +88,7 @@ namespace snakeplusplus
             playerFood.GenerateNewFood(GetGameBoundaries());
             newLocation = playerFood.location;
         }
-        if (isUpdated)
-            gameBoard.at(newLocation.y).at(newLocation.x) = 'X';
+        if (isUpdated) { gameBoard.at(newLocation.y).at(newLocation.x) = 'X'; }
         return;
     }
 
@@ -99,40 +98,44 @@ namespace snakeplusplus
         sf::Vector2f boardDimensions = GetGameBoundaries();
         gameBoard.resize(boardDimensions.y, std::vector<char> (boardDimensions.x, ' '));
         // Snake setup
+        player.headLocation.x = GenerateRandomNumber(boardDimensions.x);
+        player.headLocation.y = GenerateRandomNumber(boardDimensions.y);
         {
-            player.headLocation.x = GenerateRandomNumber(boardDimensions.x);
-            player.headLocation.y = GenerateRandomNumber(boardDimensions.y);
             char* locationState = &gameBoard.at(player.headLocation.y).at(player.headLocation.x);
             player.body.push(locationState);
             *locationState = 'O';
         }
         // Food setup
-        {
-            playerFood.GenerateNewFood(boardDimensions);
-            sf::Vector2f newLocation = playerFood.location;
-            gameBoard.at(newLocation.y).at(newLocation.x) = 'X';
-        }
+        playerFood.GenerateNewFood(boardDimensions);
+        gameBoard.at(playerFood.location.y).at(playerFood.location.x) = 'X';
         return;
     }
 
     void GameEngine::UpdatePlayerSpeed(void)
     {
-        switch (GetPlayerInput()) {
+        PlayerDirection controller;
+        if (isBotControlled) { controller = GetBotInput(&player.headLocation, &playerFood.location); }
+        else { controller = GetPlayerInput(); }
+        switch (controller) { 
             case kUp:
+                if (player.speed.y == kUnitSpeed) { break; }
                 player.speed.x = 0;
-                player.speed.y = -1;
+                player.speed.y = -kUnitSpeed;
                 break;
             case kLeft:
-                player.speed.x = -1;
+                if (player.speed.x == kUnitSpeed) { break; }
+                player.speed.x = -kUnitSpeed;
                 player.speed.y = 0;
                 break;
             case kRight:
-                player.speed.x = 1;
+                if (player.speed.x == -kUnitSpeed) { break; }
+                player.speed.x = kUnitSpeed;
                 player.speed.y = 0;
                 break;
             case kDown:
+                if (player.speed.y == -kUnitSpeed) { break; }
                 player.speed.x = 0;
-                player.speed.y = 1;
+                player.speed.y = kUnitSpeed;
                 break;
             default:
                 break;
