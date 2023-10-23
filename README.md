@@ -1,6 +1,11 @@
 # SnakePlusPlus
 A version of Snake made in C++ and using SFML
 
+## Archived
+This project has been archived on GitHub and further development has been moved.
+
+Continued development has been moved [here](https://lab.trianta.dev/Trianta/snakeplusplus)
+
 ## Controls
   - Use the arrow keys to move the Snake
   - Use the escape key to close the game
